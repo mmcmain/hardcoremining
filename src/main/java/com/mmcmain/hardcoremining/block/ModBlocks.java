@@ -36,58 +36,37 @@ public class ModBlocks
         oreSedimentary.setHarvestLevel("pickaxe", 1);
         register(oreSedimentary.getTileOre());
         oreSedimentary.minY = 5;
-        oreSedimentary.maxY = 128;
+        oreSedimentary.maxY = 75;
         oreSedimentary.clumpSize = 4;
         oreSedimentary.veinSize = 30;
-		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Forest", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Desert", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Ocean", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Taiga", ModBiomeEntry.Preferences.BIOME_PREFERRED));
 		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Hills", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Beach", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-		oreSedimentary.biomeEntries.add(new ModBiomeEntry("River", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Plains", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Swamp", ModBiomeEntry.Preferences.BIOME_DEFAULT));
 		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Jungle", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
+        oreSedimentary.biomeEntries.add(new ModBiomeEntry("Forest", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
 
 
 
         oreMetamorphic = register(new BlockOre("oreMetamorphic"));
-        oreMetamorphic.setHarvestLevel("pickaxe", 2);
+        oreMetamorphic.setHarvestLevel("pickaxe", 3);
         register(oreMetamorphic.getTileOre());
         oreMetamorphic.minY = 5;
-        oreMetamorphic.maxY = 128;
+        oreMetamorphic.maxY = 40;
         oreMetamorphic.clumpSize = 4;
         oreMetamorphic.veinSize = 30;
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Forest", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Desert", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Ocean", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Taiga", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Hills", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Beach", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("River", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Plains", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Swamp", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Jungle", ModBiomeEntry.Preferences.BIOME_DEFAULT));
+        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Plains", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
+        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Desert", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
+        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Taiga", ModBiomeEntry.Preferences.BIOME_PREFERRED));
 
 
         oreIgneous = register(new BlockOre("oreIgneous"));
-        oreIgneous.setHarvestLevel("pickaxe", 1);
+        oreIgneous.setHarvestLevel("pickaxe", 2);
         register(oreIgneous.getTileOre());
         oreIgneous.minY = 5;
-        oreIgneous.maxY = 128;
+        oreIgneous.maxY = 55;
         oreIgneous.clumpSize = 4;
         oreIgneous.veinSize = 30;
-        oreIgneous.biomeEntries.add(new ModBiomeEntry("Forest", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-        oreIgneous.biomeEntries.add(new ModBiomeEntry("Desert", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-        oreIgneous.biomeEntries.add(new ModBiomeEntry("Ocean", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-        oreIgneous.biomeEntries.add(new ModBiomeEntry("Taiga", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-        oreIgneous.biomeEntries.add(new ModBiomeEntry("Hills", ModBiomeEntry.Preferences.BIOME_PREFERRED));
         oreIgneous.biomeEntries.add(new ModBiomeEntry("Beach", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
-        oreIgneous.biomeEntries.add(new ModBiomeEntry("River", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-        oreIgneous.biomeEntries.add(new ModBiomeEntry("Plains", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
-        oreIgneous.biomeEntries.add(new ModBiomeEntry("Swamp", ModBiomeEntry.Preferences.BIOME_DEFAULT));
         oreIgneous.biomeEntries.add(new ModBiomeEntry("Jungle", ModBiomeEntry.Preferences.BIOME_PREFERRED));
+        oreIgneous.biomeEntries.add(new ModBiomeEntry("Swamp", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
 
 
 
@@ -95,19 +74,12 @@ public class ModBlocks
         oreShale.setHarvestLevel("pickaxe", 1);
         register(oreShale.getTileOre());
         oreShale.minY = 5;
-        oreShale.maxY = 128;
+        oreShale.maxY = 50;
         oreShale.clumpSize = 5;
-        oreShale.veinSize = 40;
-        oreShale.biomeEntries.add(new ModBiomeEntry("Forest", ModBiomeEntry.Preferences.BIOME_DEFAULT));
+        oreShale.veinSize = 65;
         oreShale.biomeEntries.add(new ModBiomeEntry("Desert", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-        oreShale.biomeEntries.add(new ModBiomeEntry("Ocean", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-        oreShale.biomeEntries.add(new ModBiomeEntry("Taiga", ModBiomeEntry.Preferences.BIOME_DEFAULT));
         oreShale.biomeEntries.add(new ModBiomeEntry("Hills", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
-        oreShale.biomeEntries.add(new ModBiomeEntry("Beach", ModBiomeEntry.Preferences.BIOME_DEFAULT));
         oreShale.biomeEntries.add(new ModBiomeEntry("River", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
-        oreShale.biomeEntries.add(new ModBiomeEntry("Plains", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-        oreShale.biomeEntries.add(new ModBiomeEntry("Swamp", ModBiomeEntry.Preferences.BIOME_DEFAULT));
-        oreShale.biomeEntries.add(new ModBiomeEntry("Jungle", ModBiomeEntry.Preferences.BIOME_DEFAULT));
 	}
 
 	

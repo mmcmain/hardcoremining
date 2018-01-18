@@ -27,43 +27,23 @@ import javax.annotation.Nullable;
 
 public class BlockOre extends BlockBase implements ItemOreDict
 {
-	protected TileOre tileOre;
+	private TileOre tileOre;
 	
 	public int minY, maxY, clumpSize, veinSize;
 	
-	public List<ModBiomeEntry> biomeEntries = new ArrayList();
+	public List<ModBiomeEntry> biomeEntries;
 	
 	
 	public BlockOre(String name)
 	{
 		super(name);
 
+		biomeEntries = new ArrayList<>();
         tileOre = new TileOre(name);
         this.minY = 16;
 		this.maxY = 64;
-		this.clumpSize = 5;
+		this.clumpSize = 3;
 		this.veinSize = 25;
-	}
-
-
-
-
-    @Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
-	{
-		if (state.getBlock() instanceof BlockOre )
-		{
-			ToolChecker toolChecker = new ToolChecker(worldIn, playerIn, state);
-
-			if (toolChecker.getPotentialOreCount(TileEntityOre.PLAYER_DROP_PRODUCTION) < 1 &&
-                    toolChecker.getRequiredTool() != null)
-            {
-                if(toolChecker.shouldWarn())
-                    worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.NEUTRAL, .5F, .5F);
-            }
-		}
-
-		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
 	}
 
 
@@ -80,22 +60,16 @@ public class BlockOre extends BlockBase implements ItemOreDict
                 TileOre tileOre = blockOre.getTileOre();
 
                 world.setBlockState(blockPos, tileOre.getDefaultState());
+
+                TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
+                if ( tileEntityOre != null )
+                    tileEntityOre.setOreCounterForDepth(blockPos.getY());
+
                 return tileOre.removedByPlayer(tileOre.getDefaultState(), world, blockPos, player, willHarvest);
             }
         }
 
         return super.removedByPlayer(blockState, world, blockPos, player, willHarvest);
-
-/*
-
-        IBlockState convertedBlock = TileHelper.convertOreToTile(world, blockPos);
-        if (convertedBlock != null && !willHarvest)
-            convertedBlock.getBlock().removedByPlayer(blockState, world, blockPos, player, willHarvest);
-        else
-            return blockState.getBlock().removedByPlayer(blockState, world, blockPos, player, willHarvest);
-
-*/
-
     }
 
 
@@ -112,6 +86,11 @@ public class BlockOre extends BlockBase implements ItemOreDict
                 TileOre tileOre = blockOre.getTileOre();
 
                 world.setBlockState(blockPos, tileOre.getDefaultState());
+
+                TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
+
+                if ( tileEntityOre != null )
+                    tileEntityOre.setOreCounterForDepth(blockPos.getY());
                 tileOre.onBlockExploded(world, blockPos, explosion);
             }
         }
@@ -128,18 +107,12 @@ public class BlockOre extends BlockBase implements ItemOreDict
 
 	public int getVeinSize(Random rand)
 	{
-		if (rand.nextBoolean())
-			return this.veinSize + rand.nextInt(this.veinSize)/2;
-		else
-			return this.veinSize - rand.nextInt(this.veinSize)/2;
+	    return veinSize  + rand.nextInt(35);
 	}
 
 	public int getClumpSize(Random rand)
 	{
-		if (rand.nextBoolean())
-			return this.clumpSize + rand.nextInt(this.clumpSize)/2;
-		else
-			return this.clumpSize - rand.nextInt(this.clumpSize)/2;
+	    return clumpSize - rand.nextInt(4);
 	}
 
     @Override
