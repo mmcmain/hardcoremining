@@ -1,0 +1,44 @@
+<VatRecipes>
+    <recipeGroup name="HardcoreMining" > <!-- Required for EnderIO to function correctly. -->
+        <recipe name="Easy Rocket Fuel" energyCost="15000" >
+            <input>
+                <itemStack oreDictionary="chunkKerogen" slot="0" multiplier="1"/>
+                <itemStack oreDictionary="dustSulfur" slot="1" multiplier="1"/>
+                <fluidStack name="water" multiplier=".1" />
+            </input>
+            <output>
+                <fluidStack name="rocket_fuel"  />
+            </output>
+        </recipe>
+        <recipe name="Medium Rocket Fuel" energyCost="5000" >
+            <input>
+                <itemStack oreDictionary="chunkKerogen" slot="0" multiplier="1"/>
+                <itemStack oreDictionary="dustSulfur" slot="1" multiplier="1"/>
+                <fluidStack name="fire_water" multiplier=".5" />
+            </input>
+            <output>
+                <fluidStack name="rocket_fuel"  />
+            </output>
+        </recipe>
+        <recipe name="Fast Rocket Fuel" energyCost="2000" >
+            <input>
+                <itemStack oreDictionary="chunkKerogen" slot="0" multiplier="2"/>
+                <itemStack oreDictionary="dustSulfur" slot="1" multiplier="2"/>
+                <fluidStack name="lava" multiplier="1" />
+            </input>
+            <output>
+                <fluidStack name="rocket_fuel"  />
+            </output>
+        </recipe>
+        <recipe name="Fire Water" energyCost="5000" >
+            <input>
+                <itemStack modID="minecraft" itemName="blaze_powder" slot="0" multiplier="1" />
+                <itemStack modID="minecraft" itemName="redstone" slot="1" multiplier="1" />
+                <fluidStack name="water" multiplier="1" />
+            </input>
+            <output>
+                <fluidStack name="fire_water" />
+            </output>
+        </recipe>
+    </recipeGroup>
+</VatRecipes>

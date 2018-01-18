@@ -1,0 +1,25 @@
+# Items
+item.chunkSedimentary.name=Sedimentary Mineral Chunk
+item.chunkMetamorphic.name=Metamorphic Mineral Chunk
+item.chunkIgneous.name=Igneous Mineral Chunk
+item.chunkShale.name=Shale Chunk
+
+item.shardIron.name=Iron Shard
+item.shardGold.name=Gold Shard
+item.shardRedstone.name=Redstone Shard
+item.shardEnder.name=Ender Shard
+item.nuggetIron.name=Iron Nugget
+item.chunkKerogen.name=Kerogen Chunk
+
+# Blocks
+tile.oreIgneous.name=Igneous Ore
+tile.oreIgneousTile.name=Igneous Ore
+
+tile.oreShale.name=Shale Ore
+tile.oreShaleTile.name=Shale Ore
+
+tile.oreMetamorphic.name=Metamorphic Ore
+tile.oreMetamorphicTile.name=Metamorphic Ore
+
+tile.oreSedimentary.name=Sedimentary Ore
+tile.oreSedimentaryTile.name=Sedimentary Ore

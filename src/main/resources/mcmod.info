@@ -1,0 +1,16 @@
+[
+{
+  "modid": "hardcoremining",
+  "name": "Hardcore Mining",
+  "description": "A mod that aims to improve the mining and refining experience in Minecraft.",
+  "version": "${1.0}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["mmcmain"],
+  "credits": "The world and everyone in it.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
