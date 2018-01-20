@@ -20,6 +20,8 @@ public class ModItems
     public static ItemOre chunkKerogen;
     public static ItemOre shardEnder;
 
+    public static ItemOre itemOreSampler;
+
 
     // Vanilla equivalents
     public static ItemTileOreDrop diamond;
@@ -74,6 +76,9 @@ public class ModItems
         register(chunkKerogen);
         shardEnder = new ItemOre("shardEnder", "shardEnder");
         register(shardEnder);
+
+        itemOreSampler = new ItemOreSampler("itemOreSampler", "itemOreSampler");
+        register(itemOreSampler);
 
 
         // Things that can drop from mining.

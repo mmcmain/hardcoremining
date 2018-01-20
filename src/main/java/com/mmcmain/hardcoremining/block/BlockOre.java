@@ -1,13 +1,16 @@
 package com.mmcmain.hardcoremining.block;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import com.mmcmain.hardcoremining.general.RMLog;
+import com.mmcmain.hardcoremining.item.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -16,7 +19,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import com.mmcmain.hardcoremining.item.ItemOreDict;
@@ -52,24 +57,39 @@ public class BlockOre extends BlockBase implements ItemOreDict
     {
         RMLog.debug("BlockOre removedByPlayer called. Converting and calling on Tile.");
 
-        if (!world.isRemote && !player.isCreative())
+        if ( !player.isCreative() )
         {
-            if ( blockState.getBlock() instanceof BlockOre )
-            {
-                BlockOre blockOre = (BlockOre) blockState.getBlock();
-                TileOre tileOre = blockOre.getTileOre();
+            if (!world.isRemote)
+                return convertToTile(world, blockPos).removedByPlayer(tileOre.getDefaultState(), world, blockPos, player, willHarvest);
+        }
+        else
+            return super.removedByPlayer(blockState, world, blockPos, player, willHarvest);
 
-                world.setBlockState(blockPos, tileOre.getDefaultState());
+        return false;
+    }
 
-                TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
-                if ( tileEntityOre != null )
-                    tileEntityOre.setOreCounterForDepth(blockPos.getY());
+    private TileOre convertToTile(World world, BlockPos blockPos)
+    {
+        world.setBlockState(blockPos, getTileOre().getDefaultState(), 7);
 
-                return tileOre.removedByPlayer(tileOre.getDefaultState(), world, blockPos, player, willHarvest);
-            }
+        TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
+        if ( tileEntityOre != null )
+            tileEntityOre.setOreCounterForDepth(blockPos.getY());
+
+        return tileOre;
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+    {
+        if ( !worldIn.isRemote && hand == EnumHand.MAIN_HAND )
+        {
+            convertToTile(worldIn, pos);
+            getTileOre().checkOreSamplerMsg(worldIn, pos, playerIn, hand, heldItem);
         }
 
-        return super.removedByPlayer(blockState, world, blockPos, player, willHarvest);
+
+        return super.onBlockActivated(worldIn, pos, state, playerIn,hand, heldItem, side, hitX, hitY, hitZ);
     }
 
 

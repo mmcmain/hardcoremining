@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class TileEntityOre extends TileEntity
 {
-	private static final int DEFAULT_ADDL_DROPS = 3;
-	private static final int DEFAULT_MIN_DROPS = 3;
+	private static final int DEFAULT_ADDL_DROPS = 160;
+	private static final int DEFAULT_MIN_DROPS = 40;
 
 	private static final String NBT_TAG = "oreCounter";
 
@@ -21,7 +21,7 @@ public class TileEntityOre extends TileEntity
 	public TileEntityOre()
 	{
 		random = new Random();
-		oreCounter = random.nextInt(DEFAULT_ADDL_DROPS) + DEFAULT_MIN_DROPS;
+		oreCounter = getDefaultOreCounter(random);
 	}
 
 	@Override
@@ -40,16 +40,32 @@ public class TileEntityOre extends TileEntity
 
 	public void setOreCounterForDepth(int depth)
     {
-        if (depth >= 128 && depth < 255)
-            oreCounter *= (random.nextInt(3) + 1);
-        else if (depth > 50 && depth < 128)
-            oreCounter *= (random.nextInt(2) + 1);
-        else if (depth > 24 && depth <= 50)
-            oreCounter *= (random.nextInt(5) + 1);
-        else if ( depth > 0 && depth <= 24)
-            oreCounter *= (random.nextInt(22) + 3);
-
+    	oreCounter += additionalOreCounterForDepth(random, depth);
     }
+
+    public static int estimateOreCounterForDepth(Random random, int depth)
+    {
+        return getDefaultOreCounter(random) + additionalOreCounterForDepth(random, depth);
+    }
+
+    public static int getDefaultOreCounter(Random random)
+    {
+        return random.nextInt(DEFAULT_ADDL_DROPS) + DEFAULT_MIN_DROPS;
+    }
+
+    public static int additionalOreCounterForDepth(Random random, int depth)
+	{
+		int oreCounter = 0;
+
+		if (depth >= 128 && depth < 255)
+			oreCounter += (random.nextInt(DEFAULT_ADDL_DROPS/4));
+		else if (depth > 24 && depth <= 50)
+			oreCounter += (random.nextInt(DEFAULT_ADDL_DROPS/2));
+		else if ( depth > 0 && depth <= 24)
+			oreCounter += (random.nextInt(DEFAULT_ADDL_DROPS));
+
+		return oreCounter;
+	}
 
 	public void setOreCounter(int amount)
 	{

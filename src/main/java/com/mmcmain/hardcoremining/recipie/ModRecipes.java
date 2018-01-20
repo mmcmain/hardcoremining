@@ -5,6 +5,8 @@ import com.mmcmain.hardcoremining.general.RMLog;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import com.mmcmain.hardcoremining.item.ModItems;
 import net.minecraftforge.oredict.OreDictionary;
@@ -28,6 +30,26 @@ public class ModRecipes
                 "   ",
                 'n',
                 ModItems.shardIron);
+
+
+
+        GameRegistry.addShapedRecipe(new ItemStack(ModItems.itemOreSampler, 1),
+                "cxr",
+                " g ",
+                "i  ",
+                'c',
+                Items.CLOCK,
+                'x',
+                Items.COMPASS,
+                'r',
+                ModItems.shardRedstone.getItem(),
+                'g',
+                ModItems.shardGold,
+                'i',
+                ModItems.shardIron);
+
+
+
 
         GameRegistry.addShapedRecipe(new ItemStack(Items.REDSTONE, 1),
                 "nn ",

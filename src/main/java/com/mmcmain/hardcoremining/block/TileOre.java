@@ -4,6 +4,7 @@ package com.mmcmain.hardcoremining.block;
 import javax.annotation.Nullable;
 
 import com.mmcmain.hardcoremining.item.ItemTileOreDrop;
+import com.mmcmain.hardcoremining.item.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -18,6 +19,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -35,7 +39,10 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
     private static final int EXPLOSION_DROP_PRODUCTION = 3;
     private static final int PLAYER_DROP_PRODUCTION = 2;
 
-	
+    private static final int INEFFECIENT_ORE_REDUCTION = 20;
+
+    private BlockPos dropBlockPos = null;
+
 	
 	public TileOre(String oreName)
 	{
@@ -53,15 +60,27 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if ( !worldIn.isRemote)
+        if ( !worldIn.isRemote && hand == EnumHand.MAIN_HAND )
         {
-            TileEntityOre tileEntityOre = (TileEntityOre) worldIn.getTileEntity(pos);
-
-            if ( tileEntityOre != null )
-                RMLog.info("Ore Count: " + tileEntityOre.getOreCounter());
+            checkOreSamplerMsg(worldIn, pos, playerIn, hand, heldItem);
         }
 
-        return true;
+        return super.onBlockActivated(worldIn, pos, state, playerIn,hand, heldItem, side, hitX, hitY, hitZ);
+
+    }
+
+    public void checkOreSamplerMsg(World world, BlockPos blockPos, EntityPlayer player, EnumHand hand, ItemStack heldItem)
+    {
+
+        if ( !world.isRemote && hand == EnumHand.MAIN_HAND )
+        {
+            if ( heldItem != null && heldItem.getItem() == ModItems.itemOreSampler )
+            {
+                TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
+                if ( tileEntityOre != null )
+                    player.addChatMessage(new TextComponentString("Remaining Ore: " + tileEntityOre.getOreCounter() + "."));
+            }
+        }
     }
 
 	private ItemTileOreDrop getDropProducer(int index)
@@ -88,36 +107,51 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
     public void onBlockDestroyedByPlayer(World world, BlockPos blockPos, IBlockState blockState)
     {
         if ( !world.isRemote && blockState.getBlock() instanceof TileOre )
-            world.destroyBlock(blockPos, false);
+        {
+            TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
+            if ( tileEntityOre != null )
+            {
+                if ( !tileEntityOre.hasOre() )
+                    world.destroyBlock(blockPos, false);
+            }
+        }
         else
             super.onBlockDestroyedByPlayer(world, blockPos, blockState);
     }
 
+
+    // Need to ignore willHarvest because different implementations handle it differently and
+    // my order is important.
     @Override
     public boolean removedByPlayer(IBlockState blockState, World world, BlockPos blockPos, @Nullable EntityPlayer player, boolean willHarvest)
     {
-        if ( !world.isRemote && player != null && !player.isCreative())
+        boolean didHarvest = false;
+
+        if ( player != null && player.isCreative())
+            didHarvest = super.removedByPlayer(blockState, world, blockPos, player, willHarvest);
+        else
         {
             if ( blockState.getBlock() instanceof TileOre )
             {
                 TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
                 if ( tileEntityOre != null )
                 {
-                    tileEntityOre.reduceOre();
-                    if ( tileEntityOre.hasOre() )
-                    {
-                        this.harvestBlock(world, player, blockPos, blockState, tileEntityOre, null);
-                        return false;
-                    }
+                    if ( player != null )
+                        tileEntityOre.reduceOre(INEFFECIENT_ORE_REDUCTION);
                     else
-                    {
-                        return true;
-                    }
+                        tileEntityOre.reduceOre();
+
+                    onBlockDestroyedByPlayer(world, blockPos, blockState);
+                    harvestBlock(world, player, blockPos, blockState, tileEntityOre, null);
+                    didHarvest = true;
                 }
             }
+            else
+                didHarvest = super.removedByPlayer(blockState, world, blockPos, player, willHarvest);
+
         }
 
-        return super.removedByPlayer(blockState, world, blockPos, player, willHarvest);
+        return didHarvest;
     }
 
     @Override
@@ -128,13 +162,35 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
             TileOre tileOre = (TileOre) world.getBlockState(blockPos).getBlock();
             TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
 
-            tileOre.dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), EXPLOSION_DROP_PRODUCTION);
-            tileEntityOre.reduceOre();
-            if ( !tileEntityOre.hasOre() )
-                world.destroyBlock(blockPos, false);
+            if ( tileEntityOre != null )
+            {
+                dropBlockPos = new BlockPos(explosion.getPosition());
+                tileOre.dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), EXPLOSION_DROP_PRODUCTION);
+                tileEntityOre.reduceOre(INEFFECIENT_ORE_REDUCTION);
+                if ( !tileEntityOre.hasOre() )
+                    world.destroyBlock(blockPos, false);
+            }
         }
     }
 
+    private static BlockPos findBetterDropPos(@Nullable EntityPlayer player, BlockPos blockPos)
+    {
+        BlockPos dropBlockPos;
+
+        if ( player == null )
+            dropBlockPos = blockPos;
+        else
+        {
+            BlockPos playerPos = player.getPosition();
+
+            dropBlockPos = blockPos.add(blockPos.getX() < playerPos.getX() ? 1 : blockPos.getX() > playerPos.getX() ? -1 : 0,
+                    blockPos.getY() < playerPos.getY() ? 1 : blockPos.getY() > playerPos.getY() ? -1 : 0,
+                    blockPos.getZ() < playerPos.getZ() ? 1 : blockPos.getZ() > playerPos.getZ() ? -1 : 0);
+        }
+
+        return dropBlockPos;
+    }
+    
     @Override
     public void harvestBlock(World world, @Nullable EntityPlayer player, BlockPos blockPos, IBlockState blockState, @Nullable TileEntity tileEntity, @Nullable ItemStack itemStack)
     {
@@ -144,6 +200,8 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
 
             TileOre tileOre = (TileOre) blockState.getBlock();
             fortune = tileOre.adjustFortuneForTool(world, player, blockState, PLAYER_DROP_PRODUCTION);
+
+            tileOre.dropBlockPos = findBetterDropPos(player, blockPos);
             tileOre.dropBlockAsItemWithChance(world, blockPos, blockState, 1f, fortune);
         }
         else
@@ -160,7 +218,12 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
             for (ItemStack item : items)
             {
                 //TODO: Make this spawn in a better position.
-                spawnAsEntity(worldIn, pos, item);
+
+                if (dropBlockPos != null)
+                    spawnAsEntity(worldIn, dropBlockPos, item);
+                else
+                    spawnAsEntity(worldIn, pos, item);
+
             }
         }
 

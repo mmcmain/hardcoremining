@@ -4,6 +4,9 @@ item.chunkMetamorphic.name=Metamorphic Mineral Chunk
 item.chunkIgneous.name=Igneous Mineral Chunk
 item.chunkShale.name=Shale Chunk
 
+item.itemOreSampler.name=Item Ore Sampler
+
+
 item.shardIron.name=Iron Shard
 item.shardGold.name=Gold Shard
 item.shardRedstone.name=Redstone Shard
