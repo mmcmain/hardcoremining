@@ -156,7 +156,7 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
     @Override
     public void onBlockExploded(World world, BlockPos blockPos, Explosion explosion)
     {
-        if ( world.getBlockState(blockPos).getBlock() instanceof TileOre )
+        if ( !world.isRemote && world.getBlockState(blockPos).getBlock() instanceof TileOre )
         {
             TileOre tileOre = (TileOre) world.getBlockState(blockPos).getBlock();
             TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
@@ -168,6 +168,8 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
                 tileEntityOre.reduceOre(INEFFECIENT_ORE_REDUCTION);
                 if ( !tileEntityOre.hasOre() )
                     world.destroyBlock(blockPos, false);
+                else
+                    world.setBlockState(blockPos, tileOre.getDefaultState(), 3);
             }
         }
     }

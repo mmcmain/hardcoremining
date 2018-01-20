@@ -40,8 +40,7 @@ public class ModBlocks
         oreSedimentary.clumpSize = 4;
         oreSedimentary.veinSize = 30;
 		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Hills", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Jungle", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
-        oreSedimentary.biomeEntries.add(new ModBiomeEntry("Forest", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
+        oreSedimentary.biomeEntries.add(new ModBiomeEntry("Extreme Hills", ModBiomeEntry.Preferences.BIOME_PLENTIFUL));
 
 
 
@@ -52,9 +51,8 @@ public class ModBlocks
         oreMetamorphic.maxY = 40;
         oreMetamorphic.clumpSize = 4;
         oreMetamorphic.veinSize = 30;
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Plains", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
-        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Desert", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
         oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Taiga", ModBiomeEntry.Preferences.BIOME_PREFERRED));
+        oreMetamorphic.biomeEntries.add(new ModBiomeEntry("Taiga M", ModBiomeEntry.Preferences.BIOME_PLENTIFUL));
 
 
         oreIgneous = register(new BlockOre("oreIgneous"));
@@ -64,9 +62,8 @@ public class ModBlocks
         oreIgneous.maxY = 55;
         oreIgneous.clumpSize = 4;
         oreIgneous.veinSize = 30;
-        oreIgneous.biomeEntries.add(new ModBiomeEntry("Beach", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
-        oreIgneous.biomeEntries.add(new ModBiomeEntry("Jungle", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-        oreIgneous.biomeEntries.add(new ModBiomeEntry("Swamp", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
+        oreIgneous.biomeEntries.add(new ModBiomeEntry("Savanna", ModBiomeEntry.Preferences.BIOME_PREFERRED));
+        oreIgneous.biomeEntries.add(new ModBiomeEntry("Mesa", ModBiomeEntry.Preferences.BIOME_PLENTIFUL));
 
 
 
@@ -78,8 +75,7 @@ public class ModBlocks
         oreShale.clumpSize = 5;
         oreShale.veinSize = 65;
         oreShale.biomeEntries.add(new ModBiomeEntry("Desert", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-        oreShale.biomeEntries.add(new ModBiomeEntry("Hills", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
-        oreShale.biomeEntries.add(new ModBiomeEntry("River", ModBiomeEntry.Preferences.BIOME_RESTRICTED));
+        oreShale.biomeEntries.add(new ModBiomeEntry("Deep Ocean", ModBiomeEntry.Preferences.BIOME_PLENTIFUL));
 	}
 
 	

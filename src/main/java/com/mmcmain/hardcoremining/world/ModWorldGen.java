@@ -52,117 +52,48 @@ public class ModWorldGen implements IWorldGenerator
 		ModBiomeEntry biomeEntry;
 		int defaultBiomeChances;
 		boolean isPreferred;
-		boolean isRestricted;
+		boolean isPlentiful;
+		int count;
 
 		for (int i = 0; i < ModBlocks.supportedOres.size(); i++)
 		{
 			ore = ModBlocks.supportedOres.get(i);
-			isRestricted = false;
+			isPlentiful = false;
 			isPreferred = false;
 
-			defaultBiomeChances = 22 + random.nextInt(15);
-
-			for ( int j = 0; !isRestricted && j < ore.biomeEntries.size(); j++ )
+			for ( int j = 0; j < ore.biomeEntries.size(); j++ )
 			{
 				biomeEntry = ore.biomeEntries.get(j);
 
-				if ( biomeEntry.isRestricted() && biomeName.contains(biomeEntry.biomeName) )
-				{
-					isRestricted = true;
-				}
+				if ( biomeEntry.isPlentiful() && biomeName.contains(biomeEntry.biomeName) )
+					isPlentiful = true;
 
-				if ( !isRestricted )
-				{
-					if ( biomeEntry.isPreferred() && biomeName.contains(biomeEntry.biomeName) )
-					{
-						isPreferred = true;
-					}
-				}
+				if ( biomeEntry.isPreferred() && biomeName.contains(biomeEntry.biomeName) )
+					isPreferred = true;
 			}
 
-			if ( isPreferred && !isRestricted )
+			if ( isPlentiful )
 			{
-				RMLog.debug("(" + biomeName + ")Pref OreGen: " + ore.getLocalizedName());
-				int randomInt = random.nextInt(100);
-				int count;
-				if ( randomInt > 95 )
-					count = 3;
-				else if (randomInt > 80)
+				if ( random.nextInt(100) > 95 )
 					count = 2;
-				else if (randomInt > 50)
-					count = 1;
 				else
-					count = 0;
+					count = 1;
 
-				if ( count > 0)
-				{
-					generateOre(ore.getDefaultState(),
-							world,
-							random,
-							x,
-							z,
-							ore.minY,
-							ore.maxY,
-							ore.getVeinSize(random),
-							count);
-
-					generateGroundOre(ore.getDefaultState(),
-							world,
-							random,
-							x,
-							z,
-							ore.getClumpSize(random),
-							5 + random.nextInt(10));
-				}
-
-				defaultBiomeChances = 12 + random.nextInt(10);
+				generateOre(ore.getDefaultState(), world, random, x, z, ore.minY, ore.maxY, ore.getVeinSize(random), count);
 			}
-
-			if ( !isRestricted )
+			else if ( isPreferred )
 			{
-				RMLog.debug("(" + biomeName + ")Def OreGen: " + ore.getLocalizedName());
-				generateOre(ore.getDefaultState(),
-						world,
-						random,
-						x,
-						z,
-						ore.minY,
-						ore.maxY,
-						ore.getClumpSize(random),
-						defaultBiomeChances);
+				if ( random.nextInt(100) > 75 )
+					generateOre(ore.getDefaultState(), world, random, x, z, ore.minY, ore.maxY, ore.getVeinSize(random), 1);
 			}
+
+			defaultBiomeChances = 22 + random.nextInt(15);
+			generateOre(ore.getDefaultState(), world, random, x, z, ore.minY, ore.maxY, ore.getClumpSize(random), defaultBiomeChances);
+
 		}
 	}
 
-	private void generateGroundOre(IBlockState ore, World world, Random random,
-							 int x, int z, int size, int chances)
-	{
-		int maxY = 140;
-		int minY = 60;
-		int deltaY = maxY - minY;
 
-		for (int i = 0; i < chances; i++)
-		{
-			BlockPos pos = new BlockPos(x + random.nextInt(16), minY + random.nextInt(deltaY), z + random.nextInt(16));
-
-			RMLog.debug(ore.getBlock().getLocalizedName() + " @: " + pos.getX() + ", " + pos.getZ());
-			WorldGenMinable generator = new WorldGenMinable(ore, size, BlockMatcher.forBlock(Blocks.DIRT));
-			generator.generate(world, random, pos);
-
-			generator = new WorldGenMinable(ore, size, BlockMatcher.forBlock(Blocks.SAND));
-			generator.generate(world, random, pos);
-
-			generator = new WorldGenMinable(ore, size, BlockMatcher.forBlock(Blocks.GRAVEL));
-			generator.generate(world, random, pos);
-
-			generator = new WorldGenMinable(ore, size, BlockMatcher.forBlock(Blocks.GRASS));
-			generator.generate(world, random, pos);
-
-		}
-
-	}
-
-	
 	private void generateOre(IBlockState ore, World world, Random random,
 			int x, int z, int minY, int maxY, int size, int chances)
 	{

@@ -8,7 +8,8 @@ public class ModBiomeEntry
 	{
 		BIOME_RESTRICTED,
 		BIOME_PREFERRED,
-		BIOME_DEFAULT
+		BIOME_DEFAULT,
+		BIOME_PLENTIFUL
 	}
 
 	
@@ -43,6 +44,10 @@ public class ModBiomeEntry
 	{
 		return biomePreference == Preferences.BIOME_PREFERRED;
 	}
-	
-	
+
+	public boolean isPlentiful()
+	{
+		return biomePreference == Preferences.BIOME_PLENTIFUL;
+	}
+
 }
