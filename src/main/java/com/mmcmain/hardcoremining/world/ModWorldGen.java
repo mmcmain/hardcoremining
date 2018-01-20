@@ -74,10 +74,13 @@ public class ModWorldGen implements IWorldGenerator
 
 			if ( isPlentiful )
 			{
-				if ( random.nextInt(100) > 95 )
+				int chance = random.nextInt(100);
+				if ( chance > 95 )
 					count = 2;
-				else
+				else if ( chance > 75 )
 					count = 1;
+				else
+					count = 0;
 
 				generateOre(ore.getDefaultState(), world, random, x, z, ore.minY, ore.maxY, ore.getVeinSize(random), count);
 			}
@@ -87,7 +90,7 @@ public class ModWorldGen implements IWorldGenerator
 					generateOre(ore.getDefaultState(), world, random, x, z, ore.minY, ore.maxY, ore.getVeinSize(random), 1);
 			}
 
-			defaultBiomeChances = 22 + random.nextInt(15);
+			defaultBiomeChances = 27 + random.nextInt(20);
 			generateOre(ore.getDefaultState(), world, random, x, z, ore.minY, ore.maxY, ore.getClumpSize(random), defaultBiomeChances);
 
 		}

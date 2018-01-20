@@ -73,7 +73,7 @@ public class ModBlocks
         oreShale.minY = 5;
         oreShale.maxY = 50;
         oreShale.clumpSize = 5;
-        oreShale.veinSize = 65;
+        oreShale.veinSize = 25;
         oreShale.biomeEntries.add(new ModBiomeEntry("Desert", ModBiomeEntry.Preferences.BIOME_PREFERRED));
         oreShale.biomeEntries.add(new ModBiomeEntry("Deep Ocean", ModBiomeEntry.Preferences.BIOME_PLENTIFUL));
 	}
@@ -123,10 +123,10 @@ public class ModBlocks
 
 	public static void postInit() 
 	{
-        postInitSedimentary();
-        postInitIgneous();
         postInitMetamorphic();
         postInitShale();
+        postInitIgneous();
+        postInitSedimentary();
 	}
 
     private static void postInitShale()
