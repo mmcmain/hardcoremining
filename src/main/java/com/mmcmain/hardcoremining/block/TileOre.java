@@ -34,7 +34,6 @@ import java.util.List;
 public class TileOre extends BlockTileEntity<TileEntityOre>
 {
 	private List<ItemTileOreDrop> dropProducer;
-	public static int TOOL_DAMAGE = 5;
 
     private static final int EXPLOSION_DROP_PRODUCTION = 3;
     private static final int PLAYER_DROP_PRODUCTION = 2;
@@ -165,7 +164,7 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
             if ( tileEntityOre != null )
             {
                 dropBlockPos = new BlockPos(explosion.getPosition());
-                tileOre.dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), EXPLOSION_DROP_PRODUCTION);
+                tileOre.dropBlockAsItemWithChance(world, blockPos, world.getBlockState(blockPos), 1, EXPLOSION_DROP_PRODUCTION);
                 tileEntityOre.reduceOre(INEFFECIENT_ORE_REDUCTION);
                 if ( !tileEntityOre.hasOre() )
                     world.destroyBlock(blockPos, false);
@@ -262,11 +261,10 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
     private static int adjustedFortune(World world, BlockPos blockPos, ItemTileOreDrop itemDrop, int defaultFortuneLevel)
     {
         int fortuneLevel = 0;
-        int chances = 0;
-
 
         for (int j = 0; j < itemDrop.countDropModifiers(); j++)
         {
+            int chances = 0;
             RMLog.debug("Checking for " + itemDrop.getItem().getUnlocalizedName());
             int weight = itemDrop.getDropModifier(j).getWeight();
             int minY = itemDrop.getDropModifier(j).getMinY();

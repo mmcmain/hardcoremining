@@ -46,7 +46,7 @@ public class ModBlocks
 
 
         oreMetamorphic = register(new BlockOre("oreMetamorphic"));
-        oreMetamorphic.setHarvestLevel("pickaxe", 3);
+        oreMetamorphic.setHarvestLevel("pickaxe", 2);
         register(oreMetamorphic.getTileOre());
         oreMetamorphic.minY = 5;
         oreMetamorphic.maxY = 40;
@@ -58,7 +58,7 @@ public class ModBlocks
 
 
         oreIgneous = register(new BlockOre("oreIgneous"));
-        oreIgneous.setHarvestLevel("pickaxe", 2);
+        oreIgneous.setHarvestLevel("pickaxe", 1);
         register(oreIgneous.getTileOre());
         oreIgneous.minY = 5;
         oreIgneous.maxY = 55;
@@ -71,7 +71,7 @@ public class ModBlocks
 
 
         oreShale = register(new BlockOre("oreShale"));
-        oreShale.setHarvestLevel("pickaxe", 1);
+        oreShale.setHarvestLevel("pickaxe", 2);
         register(oreShale.getTileOre());
         oreShale.minY = 5;
         oreShale.maxY = 50;

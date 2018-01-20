@@ -1,27 +1,18 @@
 package com.mmcmain.hardcoremining.block;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import com.mmcmain.hardcoremining.general.RMLog;
-import com.mmcmain.hardcoremining.item.ModItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import com.mmcmain.hardcoremining.item.ItemOreDict;
@@ -101,18 +92,7 @@ public class BlockOre extends BlockBase implements ItemOreDict
         if (!world.isRemote)
         {
             if ( blockState.getBlock() instanceof BlockOre )
-            {
-                BlockOre blockOre = (BlockOre) blockState.getBlock();
-                TileOre tileOre = blockOre.getTileOre();
-
-                world.setBlockState(blockPos, tileOre.getDefaultState());
-
-                TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
-
-                if ( tileEntityOre != null )
-                    tileEntityOre.setOreCounterForDepth(blockPos.getY());
-                tileOre.onBlockExploded(world, blockPos, explosion);
-            }
+                convertToTile(world, blockPos).onBlockExploded(world, blockPos, explosion);
         }
     }
 
