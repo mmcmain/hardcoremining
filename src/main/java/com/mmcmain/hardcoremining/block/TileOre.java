@@ -34,6 +34,7 @@ import java.util.List;
 public class TileOre extends BlockTileEntity<TileEntityOre>
 {
 	private List<ItemTileOreDrop> dropProducer;
+    private ItemTileOreDrop defaultDrop;
 
     private static final int EXPLOSION_DROP_PRODUCTION = 3;
     private static final int PLAYER_DROP_PRODUCTION = 2;
@@ -47,13 +48,24 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
 	{
 		super(oreName + "Tile");
 
-		this.dropProducer = new ArrayList<>();
+		dropProducer = new ArrayList<>();
 	}
 
-	public void addDropProducer(ItemTileOreDrop itemTileOreDrop)
+
+    public ItemTileOreDrop getDefaultDrop() {
+        return defaultDrop;
+    }
+
+    public void setDefaultDrop(ItemTileOreDrop defaultDrop) {
+        this.defaultDrop = defaultDrop;
+    }
+
+
+
+    public void addDropProducer(ItemTileOreDrop itemTileOreDrop)
 	{
 		RMLog.info("Setting drop producer to " + itemTileOreDrop.getItem().getUnlocalizedName() + ".");
-		this.dropProducer.add(itemTileOreDrop);
+		dropProducer.add(itemTileOreDrop);
     }
 
     @Override
@@ -124,33 +136,37 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
     @Override
     public boolean removedByPlayer(IBlockState blockState, World world, BlockPos blockPos, @Nullable EntityPlayer player, boolean willHarvest)
     {
-        boolean didHarvest = false;
+        boolean shouldHarvest = true;
 
-        if ( player != null && player.isCreative())
-            didHarvest = super.removedByPlayer(blockState, world, blockPos, player, willHarvest);
-        else
+        if ( !world.isRemote )
         {
-            if ( blockState.getBlock() instanceof TileOre )
-            {
-                TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
-                if ( tileEntityOre != null )
-                {
-                    if ( player != null )
-                        tileEntityOre.reduceOre(INEFFECIENT_ORE_REDUCTION);
-                    else
-                        tileEntityOre.reduceOre();
-
-                    onBlockDestroyedByPlayer(world, blockPos, blockState);
-                    harvestBlock(world, player, blockPos, blockState, tileEntityOre, null);
-                    didHarvest = true;
-                }
-            }
+            if ( player != null && player.isCreative())
+                shouldHarvest = super.removedByPlayer(blockState, world, blockPos, player, willHarvest);
             else
-                didHarvest = super.removedByPlayer(blockState, world, blockPos, player, willHarvest);
+            {
+                if ( blockState.getBlock() instanceof TileOre )
+                {
+                    TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
+                    if ( tileEntityOre != null )
+                    {
+                        if ( player != null )
+                            tileEntityOre.reduceOre(INEFFECIENT_ORE_REDUCTION);
+                        else
+                            tileEntityOre.reduceOre();
 
+                        onBlockDestroyedByPlayer(world, blockPos, blockState);
+
+                        harvestBlock(world, player, blockPos, blockState, tileEntityOre, null);
+                        shouldHarvest = false;
+                    }
+                }
+                else
+                    shouldHarvest = super.removedByPlayer(blockState, world, blockPos, player, willHarvest);
+
+            }
         }
 
-        return didHarvest;
+        return shouldHarvest;
     }
 
     @Override
@@ -195,7 +211,7 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
     @Override
     public void harvestBlock(World world, @Nullable EntityPlayer player, BlockPos blockPos, IBlockState blockState, @Nullable TileEntity tileEntity, @Nullable ItemStack itemStack)
     {
-        if ( blockState.getBlock() instanceof TileOre )
+        if ( !world.isRemote && blockState.getBlock() instanceof TileOre )
         {
             int fortune;
 
@@ -242,14 +258,13 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
 
         for ( int i = 0; !((World) world).isRemote && tileOre != null && i < tileOre.getDropProducerCount(); i++ )
         {
-            fortune = adjustedFortune((World) world, pos, getDropProducer(i), defaultFortune);
-            RMLog.debug("  Adding " + fortune + " " + tileOre.getDropProducer(i).getItem().getUnlocalizedName() + ".");
+            fortune = calculateDrops((World) world, pos, getDropProducer(i), defaultFortune);
             if ( fortune > 0 )
                 itemStackList.add(new ItemStack (tileOre.getDropProducer(i).getItem(), fortune, tileOre.getDropProducer(i).getMetaData()));
         }
 
-        if ( itemStackList.size() == 0 )
-            itemStackList.add(new ItemStack(Blocks.COBBLESTONE, 1));
+        if ( !((World) world).isRemote && itemStackList.size() == 0 )
+            itemStackList.add(new ItemStack(getDefaultDrop().getItem(), 1));
 
         return itemStackList;
     }
@@ -260,14 +275,13 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
         return false;
     }
 
-    private static int adjustedFortune(World world, BlockPos blockPos, ItemTileOreDrop itemDrop, int defaultFortuneLevel)
+    private static int calculateDrops(World world, BlockPos blockPos, ItemTileOreDrop itemDrop, int defaultFortuneLevel)
     {
-        int fortuneLevel = 0;
+        int totalDrops = 0;
 
         for (int j = 0; j < itemDrop.countDropModifiers(); j++)
         {
             int chances = 0;
-            RMLog.debug("Checking for " + itemDrop.getItem().getUnlocalizedName());
             int weight = itemDrop.getDropModifier(j).getWeight();
             int minY = itemDrop.getDropModifier(j).getMinY();
             int maxY = itemDrop.getDropModifier(j).getMaxY();
@@ -278,47 +292,28 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
             {
                 if ( worldBiomeName.contains(itemBiomeName) )
                 {
-                    RMLog.debug("  Preferred Biome " + itemBiomeName + " for " + itemDrop.getItem().getUnlocalizedName() + ": " + fortuneLevel + " chances, " + weight + "weight.");
                     if ( blockPos.getY() >= minY && blockPos.getY() <= maxY )
                         chances = itemDrop.getDropModifier(j).getChances() + defaultFortuneLevel;
-                }
-                else
-                {
-                    RMLog.debug("  Preferred Biome: " + itemBiomeName + ", found " + worldBiomeName + ". Skipping.");
                 }
             }
             else
             {
-                if ( !itemDrop.getDropModifier(j).getBiomeEntry().isRestricted() )
-                {
-                    RMLog.debug("  Default Biome " + itemBiomeName + " matching " + worldBiomeName + ".");
-                    if ( blockPos.getY() >= minY && blockPos.getY() <= maxY )
-                        chances = defaultFortuneLevel;
-                }
+                if ( blockPos.getY() >= minY && blockPos.getY() <= maxY )
+                    chances = defaultFortuneLevel;
             }
-
-            RMLog.debug("    Total Chances: " + chances + ".");
 
             while (chances-- > 0)
             {
                 int r = world.rand.nextInt(100);
                 if ( weight >= r )
                 {
-                    fortuneLevel++;
+                    totalDrops++;
                 }
             }
 
-            RMLog.debug(itemDrop.getItem().getUnlocalizedName() + ": " + fortuneLevel + " chances, " + weight + "weight.");
-            if ( itemDrop.getDropModifier(j).getBiomeEntry().isRestricted() &&
-                    worldBiomeName.contains(itemBiomeName))
-            {
-                RMLog.debug("  Restricted Biome. Terminating generation.");
-                return 0;
-            }
         }
 
-
-        return fortuneLevel;
+        return totalDrops;
     }
 
 

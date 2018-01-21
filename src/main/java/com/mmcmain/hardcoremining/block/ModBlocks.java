@@ -133,8 +133,11 @@ public class ModBlocks
     {
         postInitOre(ModBlocks.oreShale, ModItems.chunkShale);
 
+        ModBlocks.oreShale.getTileOre().setDefaultDrop(ModItems.nuggetIron);
+
         if (ModChecker.isRailcraftInstalled)
         {
+            ModBlocks.oreShale.getTileOre().setDefaultDrop(ModItems.nuggetCopper);
             ModBlocks.oreShale.getTileOre().addDropProducer(ModItems.nuggetCopper);
             ModBlocks.oreShale.getTileOre().addDropProducer(ModItems.saltpeter);
             ModBlocks.oreShale.getTileOre().addDropProducer(ModItems.sulfur);
@@ -146,8 +149,10 @@ public class ModBlocks
 	private static void postInitSedimentary()
     {
         postInitOre(ModBlocks.oreSedimentary, ModItems.chunkSedimentary);
-        ModBlocks.oreSedimentary.getTileOre().addDropProducer(ModItems.coal);
+        ModBlocks.oreSedimentary.getTileOre().setDefaultDrop(ModItems.nuggetIron);
+
         ModBlocks.oreSedimentary.getTileOre().addDropProducer(ModItems.bone);
+        ModBlocks.oreSedimentary.getTileOre().addDropProducer(ModItems.coal);
 
         if (ModChecker.isRailcraftInstalled)
         {
@@ -162,9 +167,12 @@ public class ModBlocks
     private static void postInitIgneous()
     {
         postInitOre(ModBlocks.oreIgneous, ModItems.chunkIgneous);
+        ModBlocks.oreIgneous.getTileOre().setDefaultDrop(ModItems.nuggetGold);
+
         ModBlocks.oreIgneous.getTileOre().addDropProducer(ModItems.nuggetGold);
-        ModBlocks.oreIgneous.getTileOre().addDropProducer(ModItems.shardRedstone);
         ModBlocks.oreIgneous.getTileOre().addDropProducer(ModItems.bone);
+        ModBlocks.oreIgneous.getTileOre().addDropProducer(ModItems.lapis);
+        ModBlocks.oreIgneous.getTileOre().addDropProducer(ModItems.netherquartz);
 
         if (ModChecker.isRailcraftInstalled)
         {
@@ -178,14 +186,14 @@ public class ModBlocks
     private static void postInitMetamorphic()
     {
         postInitOre(ModBlocks.oreMetamorphic, ModItems.chunkMetamorphic);
+        ModBlocks.oreMetamorphic.getTileOre().setDefaultDrop(ModItems.shardRedstone);
 
+        ModBlocks.oreMetamorphic.getTileOre().addDropProducer(ModItems.shardRedstone);
         ModBlocks.oreMetamorphic.getTileOre().addDropProducer(ModItems.diamond);
         ModBlocks.oreMetamorphic.getTileOre().addDropProducer(ModItems.bone);
         ModBlocks.oreMetamorphic.getTileOre().addDropProducer(ModItems.emerald);
-        ModBlocks.oreMetamorphic.getTileOre().addDropProducer(ModItems.netherquartz);
         ModBlocks.oreMetamorphic.getTileOre().addDropProducer(ModItems.glowstone);
         ModBlocks.oreMetamorphic.getTileOre().addDropProducer(ModItems.netherstar);
-        ModBlocks.oreMetamorphic.getTileOre().addDropProducer(ModItems.lapis);
 
         if ( ModChecker.isAE2Installed)
         {

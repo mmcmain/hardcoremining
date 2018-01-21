@@ -99,15 +99,16 @@
 <SAGMillRecipes>
     <recipeGroup name="HardcoreMining" > <!-- Required for EnderIO to function correctly. -->
 
+
         <recipe name="Kerogen Chunk" energyCost="1000" >
             <input>
                 <itemStack oreDictionary="chunkKerogen" />
             </input>
             <output>
                 <itemStack oreDictionary="dustSulfur" number="1" chance="1" />
-                <itemStack modID="minecraft" itemName="blaze_powder" number="1" chance="0.2" />
-                <itemStack oreDictionary="dustSaltpeter" number="1" chance="1" />
-                <itemStack modID="hardcoremining" itemName="shardEnder" number="1" chance="0.05" />
+                <itemStack oreDictionary="dustSaltpeter" number="1" chance=".5" />
+                <itemStack modID="minecraft" itemName="blaze_powder" number="1" chance="0.1" />
+                <itemStack modID="hardcoremining" itemName="shardEnder" number="1" chance="0.005" />
             </output>
         </recipe>
         <recipe name="Shale Chunk" energyCost="2500" >
@@ -125,7 +126,7 @@
             </input>
             <output>
                 <itemStack oreDictionary="dustIron" number="1" />
-                <itemStack oreDictionary="dustTin" number="1" chance="0.05" />
+                <itemStack oreDictionary="dustTin" number="1" chance="0.03" />
                 <itemStack oreDictionary="dustNickel" number="1" chance="0.1" />
                 <itemStack oreDictionary="dustLead" number="1" chance="0.1" />
             </output>
@@ -136,10 +137,10 @@
                 <itemStack oreDictionary="chunkIgneous" />
             </input>
             <output>
-                <itemStack oreDictionary="dustGold" number="1" chance ="0.45"/>
+                <itemStack oreDictionary="dustGold" number="1" chance ="1"/>
                 <itemStack modID="railcraft" itemName="nugget" itemMeta="9" number="1" chance="0.2" />
                 <itemStack oreDictionary="dustSilver" number="1" chance="0.1" />
-                <itemStack modID="minecraft" itemName="glowstone_dust" number="1" chance="0.2" />
+                <itemStack modID="minecraft" itemName="glowstone_dust" number="1" chance="0.1" />
             </output>
         </recipe>
 
@@ -149,8 +150,8 @@
             </input>
             <output>
                 <itemStack modID="minecraft" itemName="redstone" number="1" />
-                <itemStack modID="minecraft" itemName="quartz" number="1" chance="0.2" />
-                <itemStack modID="minecraft" itemName="diamond" number="1" chance="0.01" />
+                <itemStack modID="minecraft" itemName="quartz" number="1" chance="0.1" />
+                <itemStack modID="minecraft" itemName="diamond" number="1" chance="0.001" />
                 <itemStack modID="appliedenergistics2" itemName="material" itemMeta="0" number="1" chance="0.1" />
             </output>
         </recipe>

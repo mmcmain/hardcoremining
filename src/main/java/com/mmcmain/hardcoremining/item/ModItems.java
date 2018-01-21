@@ -85,11 +85,11 @@ public class ModItems
         shardRedstone = new ItemTileOreDrop("shardRedstone", "shardRedstone");
         register(shardRedstone.getItem());
 
-        dropModifier = new ItemDropModifier(1, 20, 3);
+        dropModifier = new ItemDropModifier(1, 30, 15);
         shardRedstone.addDropModifier(dropModifier);
 
         biomeEntry = ModBiomeEntry.preferredBiome("Hills");
-        dropModifier = new ItemDropModifier(1, 25, 4, 3, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 30, 20, 2, biomeEntry);
         shardRedstone.addDropModifier(dropModifier);
 
     }
@@ -102,15 +102,15 @@ public class ModItems
         chunkShale = new ItemTileOreDrop ("chunkShale", "chunkShale");
         register(chunkShale.getItem());
 
-        dropModifier = new ItemDropModifier(1, 256, 30);
+        dropModifier = new ItemDropModifier(1, 256, 25);
         chunkShale.addDropModifier(dropModifier);
 
         biomeEntry = ModBiomeEntry.preferredBiome("Ocean");
-        dropModifier = new ItemDropModifier(1, 40, 55, 3, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 40, 35, 2, biomeEntry);
         chunkShale.addDropModifier(dropModifier);
 
         biomeEntry = ModBiomeEntry.preferredBiome("Desert");
-        dropModifier = new ItemDropModifier(1, 64, 35, 3, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 50, 35, 2, biomeEntry);
         chunkShale.addDropModifier(dropModifier);
     }
 
@@ -124,11 +124,15 @@ public class ModItems
         chunkIgneous = new ItemTileOreDrop ("chunkIgneous", "chunkIgneous");
         register(chunkIgneous.getItem());
 
-        dropModifier = new ItemDropModifier(1, 256, 25);
+        dropModifier = new ItemDropModifier(1, 256, 20);
         chunkIgneous.addDropModifier(dropModifier);
 
-        biomeEntry = ModBiomeEntry.preferredBiome("Hills");
-        dropModifier = new ItemDropModifier(1, 256, 35, 3, biomeEntry);
+        biomeEntry = ModBiomeEntry.preferredBiome("Savanna");
+        dropModifier = new ItemDropModifier(1, 25, 25, 2, biomeEntry);
+        chunkIgneous.addDropModifier(dropModifier);
+
+        biomeEntry = ModBiomeEntry.preferredBiome("Mesa");
+        dropModifier = new ItemDropModifier(1, 35, 35, 3, biomeEntry);
         chunkIgneous.addDropModifier(dropModifier);
 
     }
@@ -141,12 +145,13 @@ public class ModItems
         chunkSedimentary = new ItemTileOreDrop ("chunkSedimentary", "chunkSedimentary");
         register(chunkSedimentary.getItem());
 
-        dropModifier = new ItemDropModifier(1, 256, 30);
+        dropModifier = new ItemDropModifier(1, 256, 35);
         chunkSedimentary.addDropModifier(dropModifier);
 
         biomeEntry = ModBiomeEntry.preferredBiome("Hills");
-        dropModifier = new ItemDropModifier(1, 40, 45, 3, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 40, 45, 2, biomeEntry);
         chunkSedimentary.addDropModifier(dropModifier);
+
     }
 
 
@@ -158,11 +163,11 @@ public class ModItems
         chunkMetamorphic = new ItemTileOreDrop ("chunkMetamorphic", "chunkMetamorphic");
         register(chunkMetamorphic.getItem());
 
-        dropModifier = new ItemDropModifier(1, 256, 25);
+        dropModifier = new ItemDropModifier(1, 256, 15);
         chunkMetamorphic.addDropModifier(dropModifier);
 
-        biomeEntry = ModBiomeEntry.preferredBiome("Hills");
-        dropModifier = new ItemDropModifier(35, 256, 35, 3, biomeEntry);
+        biomeEntry = ModBiomeEntry.preferredBiome("Taiga");
+        dropModifier = new ItemDropModifier(5, 15, 25, 2, biomeEntry);
         chunkMetamorphic.addDropModifier(dropModifier);
 
     }
@@ -176,10 +181,10 @@ public class ModItems
 
         nuggetIron = new ItemTileOreDrop("nuggetIron", "nuggetIron");
         register(nuggetIron.getItem());
-        dropModifier = new ItemDropModifier(4, 60, 2);
+        dropModifier = new ItemDropModifier(4, 60, 45);
         nuggetIron.addDropModifier(dropModifier);
         biomeEntry = ModBiomeEntry.preferredBiome("Hills");
-        dropModifier = new ItemDropModifier(4, 70, 2, 2, biomeEntry);
+        dropModifier = new ItemDropModifier(4, 70, 55, 2, biomeEntry);
         nuggetIron.addDropModifier(dropModifier);
 
 
@@ -190,10 +195,10 @@ public class ModItems
 
 
         coal = new ItemTileOreDrop(Items.COAL);
-        dropModifier = new ItemDropModifier(1, 256, 2);
+        dropModifier = new ItemDropModifier(1, 256, 15);
         coal.addDropModifier(dropModifier);
         biomeEntry = ModBiomeEntry.preferredBiome("Hills");
-        dropModifier = new ItemDropModifier(1, 256, 3, 2, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 256, 20, 2, biomeEntry);
         coal.addDropModifier(dropModifier);
         
         emerald = new ItemTileOreDrop(Items.EMERALD);
@@ -202,10 +207,10 @@ public class ModItems
         emerald.addDropModifier(dropModifier);
         
         nuggetGold = new ItemTileOreDrop(Items.GOLD_NUGGET);
-        dropModifier = new ItemDropModifier(1, 30, 2);
+        dropModifier = new ItemDropModifier(1, 30, 45);
         nuggetGold.addDropModifier(dropModifier);
         biomeEntry = ModBiomeEntry.preferredBiome("Hills");
-        dropModifier = new ItemDropModifier(1, 30, 3, 2, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 30, 55, 2, biomeEntry);
         nuggetGold.addDropModifier(dropModifier);
 
         lapis = new ItemTileOreDrop(Items.DYE, 4);
@@ -235,7 +240,7 @@ public class ModItems
         
         netherstar = new ItemTileOreDrop(Items.NETHER_STAR);
         biomeEntry = ModBiomeEntry.preferredBiome("Swamp");
-        dropModifier = new ItemDropModifier(1, 15, 1, 1, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 15, 1, 0, biomeEntry);
         netherstar.addDropModifier(dropModifier);
 
     }
@@ -249,20 +254,20 @@ public class ModItems
         dropModifier = new ItemDropModifier(1, 25, 2);
         quartzCertus.addDropModifier(dropModifier);
         biomeEntry = ModBiomeEntry.preferredBiome("River");
-        dropModifier = new ItemDropModifier(1, 45, 3, 2, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 45, 3, 1, biomeEntry);
         quartzCertus.addDropModifier(dropModifier);
         biomeEntry = ModBiomeEntry.preferredBiome("Desert");
-        dropModifier = new ItemDropModifier(1, 60, 4, 3, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 60, 3, 1, biomeEntry);
         quartzCertus.addDropModifier(dropModifier);
 
         quartzCertusCharged = new ItemTileOreDrop(Item.getByNameOrId("appliedenergistics2:material"), 1);
         dropModifier = new ItemDropModifier(1, 25, 2);
         quartzCertusCharged.addDropModifier(dropModifier);
         biomeEntry = ModBiomeEntry.preferredBiome("River");
-        dropModifier = new ItemDropModifier(1, 45, 3, 2, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 45, 3, 1, biomeEntry);
         quartzCertusCharged.addDropModifier(dropModifier);
         biomeEntry = ModBiomeEntry.preferredBiome("Desert");
-        dropModifier = new ItemDropModifier(1, 60, 4, 3, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 60, 3, 1, biomeEntry);
         quartzCertusCharged.addDropModifier(dropModifier);
     }
 
@@ -273,10 +278,10 @@ public class ModItems
         ModBiomeEntry biomeEntry;
 
         nuggetCopper = new ItemTileOreDrop(Item.getByNameOrId("railcraft:nugget"), 2);
-        dropModifier = new ItemDropModifier(1, 256, 2);
+        dropModifier = new ItemDropModifier(1, 256, 5);
         nuggetCopper.addDropModifier(dropModifier);
         biomeEntry = ModBiomeEntry.preferredBiome("Hills");
-        dropModifier = new ItemDropModifier(50, 256, 3, 2, biomeEntry);
+        dropModifier = new ItemDropModifier(50, 256, 10, 2, biomeEntry);
         nuggetCopper.addDropModifier(dropModifier);
 
         saltpeter = new ItemTileOreDrop(Item.getByNameOrId("railcraft:dust"), 2);
