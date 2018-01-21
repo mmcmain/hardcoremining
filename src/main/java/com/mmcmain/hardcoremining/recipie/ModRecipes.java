@@ -20,7 +20,7 @@ public class ModRecipes
 		GameRegistry.addSmelting(ModItems.chunkIgneous.getItem(), new ItemStack(ModItems.shardGold, 1), 0.1f);
         GameRegistry.addSmelting(ModItems.chunkSedimentary.getItem(), new ItemStack(ModItems.shardIron, 1), 0.1f);
 
-        GameRegistry.addShapelessRecipe(new ItemStack( ModItems.nuggetIron.getItem(), 2), ModItems.shardIron);
+        GameRegistry.addShapelessRecipe(new ItemStack( ModItems.nuggetIron, 2), ModItems.shardIron);
         GameRegistry.addShapelessRecipe(new ItemStack( Items.GOLD_NUGGET, 2), ModItems.shardGold);
 
 
@@ -72,6 +72,7 @@ public class ModRecipes
 		if ( ModChecker.isRailcraftInstalled )
 		{
             GameRegistry.addSmelting(ModItems.chunkShale.getItem(), new ItemStack(Item.getByNameOrId("railcraft:dust"), 1,  1), 0.3f);
+            GameRegistry.addSmelting(ModItems.chunkKerogen, new ItemStack(Item.getByNameOrId("railcraft:dust"), 1,  2), 0.3f);
 		}
 	}
 }

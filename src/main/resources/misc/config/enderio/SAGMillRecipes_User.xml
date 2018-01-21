@@ -105,9 +105,8 @@
                 <itemStack oreDictionary="chunkKerogen" />
             </input>
             <output>
-                <itemStack oreDictionary="dustSulfur" number="1" chance="1" />
-                <itemStack oreDictionary="dustSaltpeter" number="1" chance=".5" />
-                <itemStack modID="minecraft" itemName="blaze_powder" number="1" chance="0.1" />
+                <itemStack oreDictionary="dustSaltpeter" number="2" />
+                <itemStack modID="minecraft" itemName="blaze_powder" number="1" chance="0.05" />
                 <itemStack modID="hardcoremining" itemName="shardEnder" number="1" chance="0.005" />
             </output>
         </recipe>
@@ -116,8 +115,9 @@
                 <itemStack oreDictionary="chunkShale" />
             </input>
             <output>
-                <itemStack oreDictionary="chunkKerogen" number="1" />
-                <itemStack oreDictionary="dustCopper" number="1" chance="0.1" />
+                <itemStack oreDictionary="dustSulfur" number="1" />
+                <itemStack oreDictionary="chunkKerogen" number="1" chance = ".5" />
+                <itemStack modID="immersiveengineering" itemName="metal" itemMeta="9" number="1" chance="0.05" />
             </output>
         </recipe>
         <recipe name="Sedimentary Chunk" energyCost="3000" >
@@ -125,10 +125,10 @@
                 <itemStack oreDictionary="chunkSedimentary" />
             </input>
             <output>
-                <itemStack oreDictionary="dustIron" number="1" />
-                <itemStack oreDictionary="dustTin" number="1" chance="0.03" />
-                <itemStack oreDictionary="dustNickel" number="1" chance="0.1" />
-                <itemStack oreDictionary="dustLead" number="1" chance="0.1" />
+                <itemStack oreDictionary="dustIron"   number="1" />
+                <itemStack oreDictionary="dustTin" number="1" chance="0.05" />
+                <itemStack oreDictionary="dustNickel" number="1" chance="0.05" />
+                <itemStack oreDictionary="dustLead" number="1" chance="0.05" />
             </output>
         </recipe>
 
@@ -137,10 +137,10 @@
                 <itemStack oreDictionary="chunkIgneous" />
             </input>
             <output>
-                <itemStack oreDictionary="dustGold" number="1" chance ="1"/>
-                <itemStack modID="railcraft" itemName="nugget" itemMeta="9" number="1" chance="0.2" />
-                <itemStack oreDictionary="dustSilver" number="1" chance="0.1" />
-                <itemStack modID="minecraft" itemName="glowstone_dust" number="1" chance="0.1" />
+                <itemStack modID="hardcoremining" itemName="shardGold" number="2"/>
+                <itemStack modID="railcraft" itemName="nugget" itemMeta="9" number="1" chance="0.45" />
+                <itemStack oreDictionary="dustSilver" number="1" chance="0.05" />
+                <itemStack modID="minecraft" itemName="glowstone_dust" number="1" chance="0.05" />
             </output>
         </recipe>
 
@@ -149,10 +149,10 @@
                 <itemStack oreDictionary="chunkMetamorphic" />
             </input>
             <output>
-                <itemStack modID="minecraft" itemName="redstone" number="1" />
-                <itemStack modID="minecraft" itemName="quartz" number="1" chance="0.1" />
-                <itemStack modID="minecraft" itemName="diamond" number="1" chance="0.001" />
-                <itemStack modID="appliedenergistics2" itemName="material" itemMeta="0" number="1" chance="0.1" />
+                <itemStack modID="hardcoremining" itemName="shardRedstone" number="2" />
+                <itemStack modID="minecraft" itemName="quartz" number="1" chance="0.05" />
+                <itemStack modID="appliedenergistics2" itemName="material" itemMeta="0" number="1" chance="0.05" />
+                <itemStack modID="minecraft" itemName="diamond" number="1" chance="0.005" />
             </output>
         </recipe>
     </recipeGroup>

@@ -133,7 +133,7 @@ public class ModBlocks
     {
         postInitOre(ModBlocks.oreShale, ModItems.chunkShale);
 
-        ModBlocks.oreShale.getTileOre().setDefaultDrop(ModItems.nuggetIron);
+        ModBlocks.oreShale.getTileOre().setDefaultDrop(ModItems.chunkSedimentary);
 
         if (ModChecker.isRailcraftInstalled)
         {
@@ -149,14 +149,13 @@ public class ModBlocks
 	private static void postInitSedimentary()
     {
         postInitOre(ModBlocks.oreSedimentary, ModItems.chunkSedimentary);
-        ModBlocks.oreSedimentary.getTileOre().setDefaultDrop(ModItems.nuggetIron);
+        ModBlocks.oreSedimentary.getTileOre().setDefaultDrop(ModItems.coal);
 
         ModBlocks.oreSedimentary.getTileOre().addDropProducer(ModItems.bone);
         ModBlocks.oreSedimentary.getTileOre().addDropProducer(ModItems.coal);
 
         if (ModChecker.isRailcraftInstalled)
         {
-            ModBlocks.oreSedimentary.getTileOre().addDropProducer(ModItems.nuggetIron);
             ModBlocks.oreSedimentary.getTileOre().addDropProducer(ModItems.nuggetLead);
             ModBlocks.oreSedimentary.getTileOre().addDropProducer(ModItems.nuggetNickel);
             ModBlocks.oreSedimentary.getTileOre().addDropProducer(ModItems.nuggetTin);
@@ -167,7 +166,7 @@ public class ModBlocks
     private static void postInitIgneous()
     {
         postInitOre(ModBlocks.oreIgneous, ModItems.chunkIgneous);
-        ModBlocks.oreIgneous.getTileOre().setDefaultDrop(ModItems.nuggetGold);
+        ModBlocks.oreIgneous.getTileOre().setDefaultDrop(ModItems.chunkSedimentary);
 
         ModBlocks.oreIgneous.getTileOre().addDropProducer(ModItems.nuggetGold);
         ModBlocks.oreIgneous.getTileOre().addDropProducer(ModItems.bone);
@@ -186,7 +185,7 @@ public class ModBlocks
     private static void postInitMetamorphic()
     {
         postInitOre(ModBlocks.oreMetamorphic, ModItems.chunkMetamorphic);
-        ModBlocks.oreMetamorphic.getTileOre().setDefaultDrop(ModItems.shardRedstone);
+        ModBlocks.oreMetamorphic.getTileOre().setDefaultDrop(ModItems.chunkSedimentary);
 
         ModBlocks.oreMetamorphic.getTileOre().addDropProducer(ModItems.shardRedstone);
         ModBlocks.oreMetamorphic.getTileOre().addDropProducer(ModItems.diamond);
