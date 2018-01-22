@@ -21,7 +21,6 @@ public class ModRecipes
         GameRegistry.addSmelting(ModItems.chunkSedimentary.getItem(), new ItemStack(ModItems.shardIron, 1), 0.1f);
 
         GameRegistry.addShapelessRecipe(new ItemStack( ModItems.nuggetIron, 2), ModItems.shardIron);
-        GameRegistry.addShapelessRecipe(new ItemStack( Items.GOLD_NUGGET, 2), ModItems.shardGold);
 
 
         GameRegistry.addShapedRecipe(new ItemStack(Items.IRON_INGOT, 1),
