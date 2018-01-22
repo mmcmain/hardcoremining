@@ -38,7 +38,7 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
 	private List<ItemTileOreDrop> dropProducer;
     private ItemTileOreDrop defaultDrop;
 
-    private static final int EXPLOSION_DROP_PRODUCTION = 3;
+    private static final int EXPLOSION_DROP_PRODUCTION = 5;
     private static final int PLAYER_DROP_PRODUCTION = 1;
     private static final int INEFFECIENT_ORE_REDUCTION = 20;
     public static final int DEFAULT_XP = 1;
@@ -295,7 +295,7 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
         }
 
         if ( !((World) world).isRemote && itemStackList.size() == 0 )
-            itemStackList.add(new ItemStack(getDefaultDrop().getItem(), 1, getDefaultDrop().getMetaData()));
+            itemStackList.add(new ItemStack(Item.getItemFromBlock(Blocks.GRAVEL), 1));
 
         return itemStackList;
     }
