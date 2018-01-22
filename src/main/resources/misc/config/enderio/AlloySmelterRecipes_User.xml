@@ -37,7 +37,7 @@
             <itemStack modID="minecraft" itemName="ender_pearl"  exp="1"/>
         </output>
     </recipe>
-        <recipe name="Netherrack" energyCost="40000" >
+        <recipe name="Netherrack" energyCost="40000" />
             <input>
                 <itemStack modID="minecraft" itemName="cobblestone" />
                 <itemStack modID="railcraft" itemName="dust" itemMeta="2" number="8" />
