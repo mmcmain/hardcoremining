@@ -59,7 +59,7 @@ public class ModRecipes
                 ModItems.shardRedstone.getItem());
 
 
-        GameRegistry.addShapedRecipe(new ItemStack(Items.GOLD_INGOT, 1),
+        GameRegistry.addShapedRecipe(new ItemStack(Items.GOLD_NUGGET, 1),
                 "ss ",
                 "ss ",
                 "   ",

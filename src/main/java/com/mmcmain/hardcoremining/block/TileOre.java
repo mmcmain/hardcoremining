@@ -8,6 +8,7 @@ import com.mmcmain.hardcoremining.item.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
@@ -26,6 +27,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import com.mmcmain.hardcoremining.general.RMLog;
+import net.minecraftforge.common.ForgeHooks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +39,9 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
     private ItemTileOreDrop defaultDrop;
 
     private static final int EXPLOSION_DROP_PRODUCTION = 3;
-    private static final int PLAYER_DROP_PRODUCTION = 2;
-
+    private static final int PLAYER_DROP_PRODUCTION = 1;
     private static final int INEFFECIENT_ORE_REDUCTION = 20;
+    public static final int DEFAULT_XP = 1;
 
     private BlockPos dropBlockPos = null;
 
@@ -157,17 +159,46 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
                         onBlockDestroyedByPlayer(world, blockPos, blockState);
 
                         harvestBlock(world, player, blockPos, blockState, tileEntityOre, null);
+                        dropXpOnBlockBreak(world, blockPos, DEFAULT_XP);
                         shouldHarvest = false;
                     }
                 }
                 else
                     shouldHarvest = super.removedByPlayer(blockState, world, blockPos, player, willHarvest);
-
             }
         }
 
         return shouldHarvest;
     }
+
+
+    @Override
+    public void dropXpOnBlockBreak(World worldIn, BlockPos pos, int amount)
+    {
+        if (!worldIn.isRemote && worldIn.getGameRules().getBoolean("doTileDrops"))
+        {
+            while (amount > 0)
+            {
+                int i = EntityXPOrb.getXPSplit(amount);
+                amount -= i;
+                if ( dropBlockPos != null )
+                    worldIn.spawnEntityInWorld(new EntityXPOrb(worldIn, dropBlockPos.getX(), dropBlockPos.getY(), dropBlockPos.getZ(), i));
+                else
+                    worldIn.spawnEntityInWorld(new EntityXPOrb(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, i));
+            }
+        }
+    }
+
+
+
+
+    @Override
+    public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
+    {
+        return fortune * DEFAULT_XP;
+    }
+
+
 
     @Override
     public void onBlockExploded(World world, BlockPos blockPos, Explosion explosion)
@@ -264,7 +295,7 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
         }
 
         if ( !((World) world).isRemote && itemStackList.size() == 0 )
-            itemStackList.add(new ItemStack(getDefaultDrop().getItem(), 1));
+            itemStackList.add(new ItemStack(getDefaultDrop().getItem(), 1, getDefaultDrop().getMetaData()));
 
         return itemStackList;
     }

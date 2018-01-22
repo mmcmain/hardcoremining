@@ -166,11 +166,11 @@ public class ModItems
         chunkMetamorphic = new ItemTileOreDrop ("chunkMetamorphic", "chunkMetamorphic");
         register(chunkMetamorphic.getItem());
 
-        dropModifier = new ItemDropModifier(1, 256, 20);
+        dropModifier = new ItemDropModifier(1, 256, 35);
         chunkMetamorphic.addDropModifier(dropModifier);
 
         biomeEntry = ModBiomeEntry.preferredBiome("Taiga");
-        dropModifier = new ItemDropModifier(5, 15, 25, 2, biomeEntry);
+        dropModifier = new ItemDropModifier(5, 15, 45, 2, biomeEntry);
         chunkMetamorphic.addDropModifier(dropModifier);
 
     }

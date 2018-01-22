@@ -14,6 +14,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import com.mmcmain.hardcoremining.item.ItemOreDict;
@@ -27,7 +28,7 @@ public class BlockOre extends BlockBase implements ItemOreDict
 	private TileOre tileOre;
 	
 	public int minY, maxY, clumpSize, veinSize;
-	
+
 	public List<ModBiomeEntry> biomeEntries;
 	
 	
@@ -39,7 +40,7 @@ public class BlockOre extends BlockBase implements ItemOreDict
         tileOre = new TileOre(name);
         this.minY = 16;
 		this.maxY = 64;
-		this.clumpSize = 3;
+		this.clumpSize = 2;
 		this.veinSize = 25;
 	}
 
@@ -114,7 +115,7 @@ public class BlockOre extends BlockBase implements ItemOreDict
 
 	public int getClumpSize(Random rand)
 	{
-	    return clumpSize - rand.nextInt(4);
+	    return clumpSize + rand.nextInt(4);
 	}
 
     @Override
@@ -138,8 +139,8 @@ public class BlockOre extends BlockBase implements ItemOreDict
 		super.setCreativeTab(tab);
 		return this;
 	}
-	
-	@Override
+
+    @Override
 	public void initOreDict()
 	{
 		OreDictionary.registerOre(name, this);
