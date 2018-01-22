@@ -40,8 +40,8 @@
         <recipe name="Netherrack" energyCost="40000" >
             <input>
                 <itemStack modID="minecraft" itemName="cobblestone" />
-                <itemStack modID="railcraft" itemName="dust" itemMeta="2" number="8" />
-                <itemStack modID="railcraft" itemName="dust" itemMeta="1" number="8" />
+                <itemStack modID="railcraft" itemName="dust" itemMeta="2" number="4" />
+                <itemStack modID="railcraft" itemName="dust" itemMeta="1" number="4" />
             </input>
             <output>
                 <itemStack modID="minecraft" itemName="netherrack"  exp="1"/>
@@ -49,8 +49,8 @@
         </recipe>
         <recipe name="Glowstone Dust" energyCost="8000" >
             <input>
-                <itemStack modID="railcraft" itemName="dust" itemMeta="2" number="8" />
-                <itemStack modID="railcraft" itemName="dust" itemMeta="1" number="8" />
+                <itemStack modID="railcraft" itemName="dust" itemMeta="2" number="4" />
+                <itemStack modID="railcraft" itemName="dust" itemMeta="1" number="4" />
                 <itemStack modID="minecraft" itemName="blaze_powder" number="1" />
             </input>
             <output>
