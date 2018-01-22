@@ -11,9 +11,9 @@ public class FuelHandler implements IFuelHandler
     public int getBurnTime(ItemStack fuel)
     {
         if ( fuel.getItem() == ModItems.chunkShale.getItem() )
-            return 16000;
+            return 1600;
         else if ( fuel.getItem() == ModItems.chunkKerogen )
-            return 32000;
+            return 3200;
         else
             return 9;
     }
