@@ -37,14 +37,23 @@
             <itemStack modID="minecraft" itemName="ender_pearl"  exp="1"/>
         </output>
     </recipe>
-        <recipe name="Netherrack" energyCost="4000" >
+        <recipe name="Netherrack" energyCost="40000" >
             <input>
                 <itemStack modID="minecraft" itemName="cobblestone" />
-                <itemStack modID="minecraft" itemName="glowstone" number="2" />
-                <itemStack modID="hardcoremining" itemName="chunkKerogen" number="16" />
+                <itemStack modID="railcraft" itemName="dust" itemMeta="2" number="8" />
+                <itemStack modID="railcraft" itemName="dust" itemMeta="1" number="8" />
             </input>
             <output>
                 <itemStack modID="minecraft" itemName="netherrack"  exp="1"/>
+            </output>
+        <recipe name="Glowstone Dust" energyCost="8000" >
+            <input>
+                <itemStack modID="railcraft" itemName="dust" itemMeta="2" number="8" />
+                <itemStack modID="railcraft" itemName="dust" itemMeta="1" number="8" />
+                <itemStack modID="minecraft" itemName="blaze_powder" number="1" />
+            </input>
+            <output>
+                <itemStack modID="minecraft" itemName="glowstone_dust"  exp="1"/>
             </output>
         </recipe>
     </recipeGroup>
