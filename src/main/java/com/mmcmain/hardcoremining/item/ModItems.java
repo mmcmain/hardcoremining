@@ -184,8 +184,8 @@ public class ModItems
 
 
         diamond = new ItemTileOreDrop(Items.DIAMOND);
-        biomeEntry = ModBiomeEntry.preferredBiome("Taiga");
-        dropModifier = new ItemDropModifier(4, 15, 1, 0, biomeEntry);
+        biomeEntry = new ModBiomeEntry(ModBiomeEntry.BIOMENAME_DEEFAULT, ModBiomeEntry.Preferences.BIOME_DEFAULT);
+        dropModifier = new ItemDropModifier(4, 15, 1, -1, biomeEntry);
         diamond.addDropModifier(dropModifier);
 
 
@@ -205,10 +205,10 @@ public class ModItems
         dropModifier = new ItemDropModifier(1, 30, 15);
         nuggetGold.addDropModifier(dropModifier);
         biomeEntry = ModBiomeEntry.preferredBiome("Hills");
-        dropModifier = new ItemDropModifier(1, 30, 20, 2, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 30, 5, 2, biomeEntry);
         nuggetGold.addDropModifier(dropModifier);
         biomeEntry = ModBiomeEntry.preferredBiome("River");
-        dropModifier = new ItemDropModifier(1, 30, 25, 2, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 30, 5, 2, biomeEntry);
         nuggetGold.addDropModifier(dropModifier);
 
         lapis = new ItemTileOreDrop(Items.DYE, 4);
@@ -227,18 +227,23 @@ public class ModItems
         bone.addDropModifier(dropModifier);
 
         glowstone = new ItemTileOreDrop(Items.GLOWSTONE_DUST);
+        dropModifier = new ItemDropModifier(1, 20, 3);
+        glowstone.addDropModifier(dropModifier);
         biomeEntry = ModBiomeEntry.preferredBiome("Swamp");
-        dropModifier = new ItemDropModifier(1, 256, 3, 1, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 25, 3, 1, biomeEntry);
         glowstone.addDropModifier(dropModifier);
 
         netherquartz = new ItemTileOreDrop(Items.QUARTZ);
-        biomeEntry = ModBiomeEntry.preferredBiome("Swamp");
-        dropModifier = new ItemDropModifier(1, 45, 3, 1, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 40, 2);
         netherquartz.addDropModifier(dropModifier);
-        
+        biomeEntry = ModBiomeEntry.preferredBiome("Swamp");
+        dropModifier = new ItemDropModifier(1, 45, 3, 2, biomeEntry);
+        netherquartz.addDropModifier(dropModifier);
+
+
         netherstar = new ItemTileOreDrop(Items.NETHER_STAR);
         biomeEntry = ModBiomeEntry.preferredBiome("Swamp");
-        dropModifier = new ItemDropModifier(1, 15, 1, 0, biomeEntry);
+        dropModifier = new ItemDropModifier(1, 15, 1, -1, biomeEntry);
         netherstar.addDropModifier(dropModifier);
 
     }
