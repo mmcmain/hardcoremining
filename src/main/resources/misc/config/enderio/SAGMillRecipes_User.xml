@@ -119,7 +119,6 @@
                 <itemStack oreDictionary="dustSulfur" number="1" />
                 <itemStack oreDictionary="chunkKerogen" number="1" chance = ".5" />
                 <itemStack modID="immersiveengineering" itemName="metal" itemMeta="9" number="1" chance="0.05" />
-                <itemStack modID="minecraft" itemName="flint" number="1" chance="0.08" />
             </output>
         </recipe>
         <recipe name="Sedimentary Chunk" energyCost="3000" >
@@ -139,10 +138,9 @@
                 <itemStack oreDictionary="chunkIgneous" />
             </input>
             <output>
-                <itemStack modID="hardcoremining" itemName="shardGold" number="2"/>
+                <itemStack modID="minecraft" itemName="gold_nugget" number="1"/>
                 <itemStack modID="railcraft" itemName="nugget" itemMeta="9" number="1" chance="0.45" />
                 <itemStack oreDictionary="dustSilver" number="1" chance="0.05" />
-                <itemStack modID="minecraft" itemName="glowstone_dust" number="1" chance="0.05" />
             </output>
         </recipe>
 
