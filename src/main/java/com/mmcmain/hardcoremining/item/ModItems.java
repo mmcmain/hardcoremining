@@ -19,6 +19,7 @@ public class ModItems
     public static ItemOre chunkKerogen;
     public static ItemOre shardEnder;
     public static ItemOre nuggetIron;
+    public static ItemOre dustVanadium;
 
     public static ItemOre itemOreSampler;
 
@@ -79,10 +80,11 @@ public class ModItems
         nuggetIron = new ItemOre("nuggetIron", "nuggetIron");
         register(nuggetIron);
 
+        dustVanadium = new ItemOre("dustVanadium", "dustVanadium");
+        register(dustVanadium);
 
         itemOreSampler = new ItemOreSampler("itemOreSampler", "itemOreSampler");
         register(itemOreSampler);
-
 
         // Things that can drop from mining.
         shardRedstone = new ItemTileOreDrop("shardRedstone", "shardRedstone");
