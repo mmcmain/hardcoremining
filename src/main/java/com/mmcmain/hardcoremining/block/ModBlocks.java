@@ -25,23 +25,16 @@ public class ModBlocks
     public static BlockOre oreIgneous;
     public static BlockOre oreShale;
 
+    public static TileMiner tileMiner;
+
 
 	public static void init()
 	{
 
+	    tileMiner = register(new TileMiner("tileMiner"));
+	    tileMiner.setHarvestLevel("pickaxe", 0);
 
 		// Vanilla
-
-        oreSedimentary = register(new BlockOre("oreSedimentary"));
-        oreSedimentary.setHarvestLevel("pickaxe", 1);
-        register(oreSedimentary.getTileOre());
-        oreSedimentary.minY = 5;
-        oreSedimentary.maxY = 75;
-        oreSedimentary.clumpSize = 4;
-        oreSedimentary.veinSize = 30;
-		oreSedimentary.biomeEntries.add(new ModBiomeEntry("Hills", ModBiomeEntry.Preferences.BIOME_PREFERRED));
-        oreSedimentary.biomeEntries.add(new ModBiomeEntry("Extreme Hills", ModBiomeEntry.Preferences.BIOME_PLENTIFUL));
-
 
 
         oreMetamorphic = register(new BlockOre("oreMetamorphic"));
@@ -66,7 +59,6 @@ public class ModBlocks
         oreIgneous.biomeEntries.add(new ModBiomeEntry("Mesa", ModBiomeEntry.Preferences.BIOME_PLENTIFUL));
 
 
-
         oreShale = register(new BlockOre("oreShale"));
         oreShale.setHarvestLevel("pickaxe", 2);
         register(oreShale.getTileOre());
@@ -76,7 +68,20 @@ public class ModBlocks
         oreShale.veinSize = 25;
         oreShale.biomeEntries.add(new ModBiomeEntry("Desert", ModBiomeEntry.Preferences.BIOME_PREFERRED));
         oreShale.biomeEntries.add(new ModBiomeEntry("Deep Ocean", ModBiomeEntry.Preferences.BIOME_PLENTIFUL));
-	}
+
+        oreSedimentary = register(new BlockOre("oreSedimentary"));
+        oreSedimentary.setHarvestLevel("pickaxe", 1);
+        register(oreSedimentary.getTileOre());
+        oreSedimentary.minY = 5;
+        oreSedimentary.maxY = 75;
+        oreSedimentary.clumpSize = 4;
+        oreSedimentary.veinSize = 30;
+        oreSedimentary.biomeEntries.add(new ModBiomeEntry("Hills", ModBiomeEntry.Preferences.BIOME_PREFERRED));
+        oreSedimentary.biomeEntries.add(new ModBiomeEntry("Extreme Hills", ModBiomeEntry.Preferences.BIOME_PLENTIFUL));
+
+
+
+    }
 
 	
 	private static <T extends Block> T register(T block, ItemBlock itemBlock)
