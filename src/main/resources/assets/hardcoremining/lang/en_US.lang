@@ -10,6 +10,7 @@ item.itemOreSampler.name=Item Ore Sampler
 item.shardIron.name=Iron Shard
 item.shardGold.name=Gold Shard
 item.shardRedstone.name=Redstone Shard
+item.dustVanadium.name=Vanadium Dust
 item.shardEnder.name=Ender Shard
 item.nuggetIron.name=Iron Nugget
 item.chunkKerogen.name=Kerogen Chunk
@@ -26,3 +27,5 @@ tile.oreMetamorphicTile.name=Metamorphic Ore
 
 tile.oreSedimentary.name=Sedimentary Ore
 tile.oreSedimentaryTile.name=Sedimentary Ore
+
+tile.tileMiner.name=Ore Miner
