@@ -129,7 +129,7 @@
                 <itemStack oreDictionary="dustIron"   number="1" />
                 <itemStack oreDictionary="dustTin" number="1" chance="0.05" />
                 <itemStack oreDictionary="dustNickel" number="1" chance="0.05" />
-                <itemStack oreDictionary="dustLead" number="1" chance="0.05" />
+                <itemStack modID="hardcoremining" itemName="dustVanadium" number="1" chance="0.05" />
             </output>
         </recipe>
 
@@ -139,6 +139,7 @@
             </input>
             <output>
                 <itemStack modID="minecraft" itemName="gold_nugget" number="1"/>
+                <itemStack oreDictionary="dustLead" number="1" chance="0.05" />
                 <itemStack modID="railcraft" itemName="nugget" itemMeta="9" number="1" chance="0.45" />
                 <itemStack oreDictionary="dustSilver" number="1" chance="0.05" />
             </output>
@@ -150,8 +151,8 @@
             </input>
             <output>
                 <itemStack modID="hardcoremining" itemName="shardRedstone" number="2" />
-                <itemStack modID="minecraft" itemName="quartz" number="1" chance="0.05" />
-                <itemStack modID="appliedenergistics2" itemName="material" itemMeta="0" number="1" chance="0.05" />
+                <itemStack modID="minecraft" itemName="quartz" number="1" chance="0.15" />
+                <itemStack modID="appliedenergistics2" itemName="material" itemMeta="0" number="1" chance="0.15" />
                 <itemStack modID="minecraft" itemName="diamond" number="1" chance="0.005" />
             </output>
         </recipe>
