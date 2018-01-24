@@ -22,6 +22,7 @@ public class TileEntityOre extends TileEntity
 	{
 		random = new Random();
 		oreCounter = getDefaultOreCounter(random);
+		markDirty();
 	}
 
 	@Override
