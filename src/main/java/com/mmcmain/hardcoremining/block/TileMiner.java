@@ -1,8 +1,8 @@
 package com.mmcmain.hardcoremining.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -10,22 +10,31 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class TileMiner extends BlockTileEntity<TileEntityMiner> {
-    private boolean isRunning;
+public class TileMiner extends BlockTileEntity<TileEntityMiner>
+{
+    private final static int DELAY = 200;
+
+    private int delayCounter = 0;
+    private List<ItemStack> heldItems = null;
+
+    private BlockPos currentMiningPos = null;
 
 
-    public TileMiner(String name) {
+
+    public TileMiner(String name)
+    {
         super(name);
-        isRunning = false;
+        currentMiningPos = null;
     }
 
     @Override
@@ -35,10 +44,12 @@ public class TileMiner extends BlockTileEntity<TileEntityMiner> {
 
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (!world.isRemote && hand == EnumHand.MAIN_HAND) {
-            TileEntityMiner tile = getTileEntity(world, pos);
-            findInventory(world, pos);
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+    {
+        if (!world.isRemote && hand == EnumHand.MAIN_HAND)
+        {
+            getTileEntity(world, pos).toggleRunning();
+            player.addChatMessage(new TextComponentString("Miner: " + (getTileEntity(world, pos).isRunning() ? "On." : "Off.")));
         }
         return true;
     }
@@ -55,40 +66,34 @@ public class TileMiner extends BlockTileEntity<TileEntityMiner> {
     }
 
 
-    private void findInventory(World world, BlockPos blockPos) {
+    private void ejectToInventory(World world, BlockPos blockPos)
+    {
         BlockPos abovePos = blockPos.offset(EnumFacing.UP);
         TileEntity tileEntity = world.getTileEntity(abovePos);
 
-        if ( tileEntity.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN)  )
+        if ( tileEntity != null && heldItems != null && heldItems.size() > 0 )
         {
-            IItemHandler inventory = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN);
-            List <ItemStack> items = new ArrayList<ItemStack>();
-
-            items.add(new ItemStack(Items.IRON_INGOT, 1));
-            dumpItems(inventory, items);
-
-        }
-        else if (tileEntity instanceof ISidedInventory)
-        {
-            ISidedInventory inventory = (ISidedInventory) world.getTileEntity(abovePos);
-            List <ItemStack> items = new ArrayList<ItemStack>();
-
-            if ( inventory != null && inventory.getSlotsForFace(EnumFacing.DOWN).length > 0 )
+            if ( tileEntity.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN)  )
             {
-                items.add(new ItemStack(Items.IRON_INGOT, 1));
-                dumpItemsIntoSided(inventory, items);
+                IItemHandler inventory = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN);
+                dumpItems(inventory, heldItems);
+
             }
+            else if (tileEntity instanceof ISidedInventory)
+            {
+                ISidedInventory inventory = (ISidedInventory) world.getTileEntity(abovePos);
+                if ( inventory != null && inventory.getSlotsForFace(EnumFacing.DOWN).length > 0 )
+                    dumpItemsIntoSided(inventory, heldItems);
 
-        }
-        else
-        if (tileEntity instanceof IInventory) {
-            IInventory inventory = (IInventory) world.getTileEntity(abovePos);
-            List<ItemStack> items = new ArrayList<ItemStack>();
+            }
+            else
+            if (tileEntity instanceof IInventory)
+            {
+                IInventory inventory = (IInventory) world.getTileEntity(abovePos);
+                if (inventory != null)
+                    dumpItems(inventory, heldItems);
 
-            items.add(new ItemStack(Items.IRON_INGOT, 63));
-            if (inventory != null)
-                dumpItems(inventory, items);
-
+            }
         }
 
     }
@@ -171,6 +176,111 @@ public class TileMiner extends BlockTileEntity<TileEntityMiner> {
             inventoryFull = thingsLeft;
         }
         return !thingsLeft;
+
+
+    }
+
+    private BlockPos findRootOre(World world, BlockPos blockPos)
+    {
+        BlockPos rootBlockPos = blockPos.offset(EnumFacing.DOWN, 1);
+        BlockPos currentPos = null;
+
+        currentPos = findCardinalTile(world, rootBlockPos, EnumFacing.UP);
+
+        if ( currentPos == null )
+        {
+            if ( getTileOreAtPos(world, rootBlockPos) != null )
+                currentPos = rootBlockPos;
+        }
+
+        return currentPos;
+
+    }
+
+    private BlockPos findCardinalTile(World world, BlockPos rootPos, EnumFacing excludeFace)
+    {
+        BlockPos currentPos = null;
+        TileOre rootTile = getTileOreAtPos(world, rootPos);
+
+        if ( rootTile != null )
+        {
+            currentPos = rootPos;
+            for ( EnumFacing facing : EnumFacing.values() )
+            {
+                BlockPos nextPos = null;
+                if ( facing != excludeFace )
+                    nextPos = findCardinalTile(world, rootPos.offset(facing, 1), facing.getOpposite());
+
+                if ( nextPos != null )
+                    currentPos = nextPos;
+
+            }
+        }
+
+        return currentPos;
+
+    }
+
+
+
+
+    private TileOre getTileOreAtPos(World world, BlockPos blockPos)
+    {
+        TileOre tileOre = null;
+        BlockOre blockOre;
+
+        if ( world.getBlockState(blockPos).getBlock() instanceof BlockOre )
+        {
+            blockOre = (BlockOre) world.getBlockState(blockPos).getBlock();
+            tileOre = blockOre.convertToTile(world, blockPos);
+        }
+        else
+        {
+            TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
+            if ( tileEntityOre != null )
+                tileOre = (TileOre) world.getBlockState(blockPos).getBlock();
+
+        }
+
+        return tileOre;
+    }
+
+
+    private void mineCurrentOre(World world, BlockPos blockPos)
+    {
+        if ( getTileEntity(world, blockPos).isRunning() && heldItems == null || heldItems.size() == 0 )
+        {
+            if ( currentMiningPos == null )
+                currentMiningPos = findRootOre(world, blockPos);
+
+            if ( currentMiningPos != null  )
+            {
+                TileOre currentMiningTile = getTileOreAtPos(world, currentMiningPos);
+                if ( currentMiningTile != null )
+                {
+                    heldItems = currentMiningTile.removedByMiner(world, currentMiningPos);
+                     if ( !currentMiningTile.getTileEntity(world, currentMiningPos).hasOre() )
+                    {
+                        world.destroyBlock(currentMiningPos, false);
+                        currentMiningPos = null;
+                    }
+                }
+            }
+            else
+                getTileEntity(world, blockPos).toggleRunning();
+        }
+    }
+
+
+
+
+    @Override
+    public void updateTick(World world, BlockPos blockPos, IBlockState blockState, Random rand)
+    {
+        if ( heldItems != null && heldItems.size() > 0 )
+            ejectToInventory(world, blockPos);
+        else if ( getTileEntity(world, blockPos).isRunning() )
+            mineCurrentOre(world, blockPos);
     }
 
 
