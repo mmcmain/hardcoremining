@@ -1,11 +1,10 @@
 {
     "forge_marker": 1,
-    "defaults":
-    {
-        "textures":
-        {
-            "all": "hardcoremining:blocks/tileMiner"
-        }
+    "defaults": {
+        "textures": {
+            "all": "hardcoremining:blocks/tileMinerSides"
+        },
+        "uvlock": true
     },
     "variants":
     {
@@ -18,4 +17,5 @@
             "model": "cube_all"
         }
     }
+
 }

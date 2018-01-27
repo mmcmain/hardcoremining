@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import com.mmcmain.hardcoremining.item.ItemOreDict;
 import com.mmcmain.hardcoremining.world.ModBiomeEntry;
@@ -61,14 +62,38 @@ public class BlockOre extends BlockBase implements ItemOreDict
         return false;
     }
 
-    private TileOre convertToTile(World world, BlockPos blockPos)
+    @Override
+    public void dropXpOnBlockBreak(World world, BlockPos blockPos, int amount)
     {
-        world.setBlockState(blockPos, getTileOre().getDefaultState(), 7);
+        convertToTile(world, blockPos).dropXpOnBlockBreak(world, blockPos, amount);
+    }
 
-        TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
-        if ( tileEntityOre != null )
-            tileEntityOre.setOreCounterForDepth(blockPos.getY());
+    @Override
+    public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
+    {
+        return convertToTile((World) world, pos).getExpDrop(state, world, pos, fortune);
+    }
 
+
+    @Override
+    public void harvestBlock(World world, @Nullable EntityPlayer player, BlockPos blockPos, IBlockState blockState, @Nullable TileEntity tileEntity, @Nullable ItemStack itemStack)
+    {
+        convertToTile(world, blockPos).harvestBlock(world, player, blockPos, blockState, tileEntity, itemStack);
+    }
+
+
+
+    public TileOre convertToTile(World world, BlockPos blockPos)
+    {
+
+        if ( !(world.getTileEntity(blockPos) instanceof TileEntityOre) )
+        {
+            world.setBlockState(blockPos, getTileOre().getDefaultState(), 7);
+
+            TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
+            if ( tileEntityOre != null )
+                tileEntityOre.setOreCounterForDepth(blockPos.getY());
+        }
         return tileOre;
     }
 
@@ -98,14 +123,18 @@ public class BlockOre extends BlockBase implements ItemOreDict
         }
     }
 
+    @Override
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState blockState, int defaultFortune)
+    {
+        return convertToTile((World) world, pos).getDrops(world, pos, blockState, defaultFortune);
+    }
+
+
 
     @Override
     public void dropBlockAsItemWithChance(World world, BlockPos blockPos, IBlockState blockState, float chance, int fortune)
     {
-        if ( blockState.getBlock() instanceof BlockOre )
-            RMLog.warn("BlockOre DropBlock called. Should not be possible.");
-        else
-            super.dropBlockAsItemWithChance(world, blockPos, blockState, chance, fortune);
+        convertToTile(world, blockPos).dropBlockAsItemWithChance(world, blockPos, blockState, chance, fortune);
     }
 
 	public int getVeinSize(Random rand)

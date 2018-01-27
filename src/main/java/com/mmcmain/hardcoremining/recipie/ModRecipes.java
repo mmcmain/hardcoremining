@@ -1,7 +1,9 @@
 package com.mmcmain.hardcoremining.recipie;
 
+import com.mmcmain.hardcoremining.block.ModBlocks;
 import com.mmcmain.hardcoremining.general.ModChecker;
 import com.mmcmain.hardcoremining.general.RMLog;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,6 +23,38 @@ public class ModRecipes
         GameRegistry.addSmelting(ModItems.chunkSedimentary.getItem(), new ItemStack(ModItems.shardIron, 1), 0.1f);
 
         GameRegistry.addShapelessRecipe(new ItemStack( ModItems.nuggetIron, 2), ModItems.shardIron);
+
+
+        if ( ModChecker.isRailcraftInstalled && ModChecker.isEnderIOInstalled )
+        {
+            GameRegistry.addShapedRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.tileMiner), 1),
+                    "ifi",
+                    "iai",
+                    "ipi",
+                    'i',
+                    Items.IRON_INGOT,
+                    'f',
+                    Item.getItemFromBlock(Blocks.FURNACE),
+                    'p',
+                    Items.IRON_PICKAXE,
+                    'a',
+                    Item.getItemFromBlock(Blocks.ANVIL));
+        }
+        else
+        {
+            GameRegistry.addShapedRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.tileMiner), 1),
+                    "ifi",
+                    "iai",
+                    "ipi",
+                    'i',
+                    new ItemStack(Item.getByNameOrId("railcraft:plate"), 1, 0).getItem(),
+                    'f',
+                    Item.getByNameOrId("enderio:blockStirlingGenerator"),
+                    'p',
+                    new ItemStack(Item.getByNameOrId("railcraft:bore"), 1, 0).getItem(),
+                    'a',
+                    new ItemStack(Item.getByNameOrId("railcraft:anvil"), 1, 0).getItem());
+        }
 
 
         GameRegistry.addShapedRecipe(new ItemStack(Items.IRON_INGOT, 1),

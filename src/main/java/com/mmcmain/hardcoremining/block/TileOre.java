@@ -18,16 +18,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import com.mmcmain.hardcoremining.general.RMLog;
-import net.minecraftforge.common.ForgeHooks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,14 +36,15 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
 	private List<ItemTileOreDrop> dropProducer;
     private ItemTileOreDrop defaultDrop;
 
-    private static final int EXPLOSION_DROP_PRODUCTION = 5;
+    private static final int EXPLOSION_DROP_PRODUCTION = 3;
     private static final int PLAYER_DROP_PRODUCTION = 1;
+    private static final int MINER_DROP_PRODUCTION = 5;
     private static final int INEFFECIENT_ORE_REDUCTION = 20;
+    private static final int EFFECIENT_ORE_REDUCTION = 1;
     public static final int DEFAULT_XP = 1;
 
     private BlockPos dropBlockPos = null;
 
-	
 	public TileOre(String oreName)
 	{
 		super(oreName + "Tile");
@@ -119,6 +118,7 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
 	@Override
     public void onBlockDestroyedByPlayer(World world, BlockPos blockPos, IBlockState blockState)
     {
+
         if ( !world.isRemote && blockState.getBlock() instanceof TileOre )
         {
             TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
@@ -130,6 +130,23 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
         }
         else
             super.onBlockDestroyedByPlayer(world, blockPos, blockState);
+    }
+
+
+    public List <ItemStack> removedByMiner(World world, BlockPos blockPos)
+    {
+        List items = null;
+        TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
+        if ( tileEntityOre != null )
+        {
+            if ( tileEntityOre.hasOre() )
+            {
+                tileEntityOre.reduceOre(EFFECIENT_ORE_REDUCTION);
+                items = getDrops(world, blockPos, world.getBlockState(blockPos), MINER_DROP_PRODUCTION);
+            }
+        }
+
+        return items;
     }
 
 
@@ -151,16 +168,18 @@ public class TileOre extends BlockTileEntity<TileEntityOre>
                     TileEntityOre tileEntityOre = (TileEntityOre) world.getTileEntity(blockPos);
                     if ( tileEntityOre != null )
                     {
-                        if ( player != null )
-                            tileEntityOre.reduceOre(INEFFECIENT_ORE_REDUCTION);
-                        else
-                            tileEntityOre.reduceOre();
+                        tileEntityOre.reduceOre(INEFFECIENT_ORE_REDUCTION);
 
                         onBlockDestroyedByPlayer(world, blockPos, blockState);
 
-                        harvestBlock(world, player, blockPos, blockState, tileEntityOre, null);
+                        if ( !willHarvest )
+                        {
+                            harvestBlock(world, player, blockPos, blockState, tileEntityOre, null);
+                            shouldHarvest = false;
+                        }
+                        else
+                            shouldHarvest = true;
                         dropXpOnBlockBreak(world, blockPos, DEFAULT_XP);
-                        shouldHarvest = false;
                     }
                 }
                 else

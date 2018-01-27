@@ -1,14 +1,15 @@
 package com.mmcmain.hardcoremining.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -22,7 +23,7 @@ import java.util.Random;
 
 public class TileMiner extends BlockTileEntity<TileEntityMiner>
 {
-    private final static int DELAY = 200;
+    private final static int DELAY = 8;
 
     private int delayCounter = 0;
     private List<ItemStack> heldItems = null;
@@ -189,7 +190,7 @@ public class TileMiner extends BlockTileEntity<TileEntityMiner>
 
         if ( currentPos == null )
         {
-            if ( getTileOreAtPos(world, rootBlockPos) != null )
+            if ( checkModOreAtPos(world, blockPos) )
                 currentPos = rootBlockPos;
         }
 
@@ -200,9 +201,9 @@ public class TileMiner extends BlockTileEntity<TileEntityMiner>
     private BlockPos findCardinalTile(World world, BlockPos rootPos, EnumFacing excludeFace)
     {
         BlockPos currentPos = null;
-        TileOre rootTile = getTileOreAtPos(world, rootPos);
+        boolean isModOre = checkModOreAtPos(world, rootPos);
 
-        if ( rootTile != null )
+        if ( isModOre )
         {
             currentPos = rootPos;
             for ( EnumFacing facing : EnumFacing.values() )
@@ -213,7 +214,6 @@ public class TileMiner extends BlockTileEntity<TileEntityMiner>
 
                 if ( nextPos != null )
                     currentPos = nextPos;
-
             }
         }
 
@@ -221,6 +221,23 @@ public class TileMiner extends BlockTileEntity<TileEntityMiner>
 
     }
 
+
+
+    private boolean checkModOreAtPos(World world, BlockPos blockPos)
+    {
+        boolean isModOre = false;
+
+        if ( world.getBlockState(blockPos).getBlock() instanceof BlockOre )
+            isModOre = true;
+        else
+        {
+            TileEntity tileEntity = world.getTileEntity(blockPos);
+            if ( tileEntity != null && tileEntity instanceof TileEntityOre )
+                isModOre = true;
+        }
+
+        return isModOre;
+    }
 
 
 
@@ -272,15 +289,28 @@ public class TileMiner extends BlockTileEntity<TileEntityMiner>
     }
 
 
-
-
     @Override
     public void updateTick(World world, BlockPos blockPos, IBlockState blockState, Random rand)
     {
         if ( heldItems != null && heldItems.size() > 0 )
             ejectToInventory(world, blockPos);
         else if ( getTileEntity(world, blockPos).isRunning() )
-            mineCurrentOre(world, blockPos);
+        {
+            if ( getTileEntity(world, blockPos).spendMiningRF(false) )
+            {
+                delayCounter++;
+                world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.NEUTRAL, .05F, .3F);
+            }
+            else
+                world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.NEUTRAL, .2F, .5F);
+
+            if ( delayCounter >= DELAY )
+            {
+                delayCounter = 0;
+                mineCurrentOre(world, blockPos);
+
+            }
+        }
     }
 
 
